@@ -1,0 +1,13 @@
+package fr;
+
+/**
+ * Hello world!
+ *
+ * @author <a href="mailto:christophe.saint-marcel@univ-grenoble-alpes.fr">Christophe</a>
+ */
+public class App {
+
+    public static void main(String[] args) throws InterruptedException {
+        GUIHelper.showOnFrame("test");
+    }
+}
