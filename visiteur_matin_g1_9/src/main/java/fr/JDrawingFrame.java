@@ -46,19 +46,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import fr.commands.AddShape;
+import fr.commands.RemoveShape;
 import fr.persistence.JSonVisitor;
 import fr.persistence.XMLVisitor;
 import fr.shapes.Circle;
 import fr.shapes.Element;
+import fr.shapes.ShapesList;
+import fr.shapes.SimpleShape;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
+import javafx.scene.shape.Shape;
 
-import javax.swing.JFileChooser;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * This class represents the main application class, which is a JFrame subclass
@@ -68,7 +69,7 @@ import java.util.*;
  *
  */
 public class JDrawingFrame extends JFrame
-    implements MouseListener, MouseMotionListener
+    implements MouseListener, MouseMotionListener, KeyListener
 {
 	private enum Shapes {SQUARE, TRIANGLE, CIRCLE};
     private static final long serialVersionUID = 1L;
@@ -78,6 +79,7 @@ public class JDrawingFrame extends JFrame
     private JLabel m_label;
     private ActionListener m_reusableActionListener = new ShapeActionListener();
     private List<Element> elements = new ArrayList<>();
+    private ShapesList shapeList = new ShapesList();
     
     /**
      * Tracks buttons to manage the background.
@@ -98,6 +100,9 @@ public class JDrawingFrame extends JFrame
         m_panel.setLayout(null);
         m_panel.setMinimumSize(new Dimension(400, 400));
         m_panel.addMouseListener(this);
+        this.addKeyListener(this);
+        this.setFocusable(true);
+        this.requestFocusInWindow();
         m_panel.addMouseMotionListener(this);
         m_label = new JLabel(" ", JLabel.LEFT);
         
@@ -111,7 +116,6 @@ public class JDrawingFrame extends JFrame
         addShape(Shapes.SQUARE, new ImageIcon(getClass().getResource("images/square.png")));
         addShape(Shapes.TRIANGLE, new ImageIcon(getClass().getResource("images/triangle.png")));
         addShape(Shapes.CIRCLE, new ImageIcon(getClass().getResource("images/circle.png")));
-        //addShape(Shapes.CIRCLE, new ImageIcon(getClass().getResource("images/underc.png")));
 
         setPreferredSize(new Dimension(400, 400));
 
@@ -164,36 +168,69 @@ public class JDrawingFrame extends JFrame
     }
 
     /**
-     * TODO Use the factory to abstract shape creation
+     *  Use the factory to abstract shape creation
      * Implements method for the <tt>MouseListener</tt> interface to
      * draw the selected shape into the drawing canvas.
      * @param evt The associated mouse event.
     **/
-    public void mouseClicked(MouseEvent evt)
-    {
+    public void mouseClicked(MouseEvent evt) {
+        if (m_panel.contains(evt.getX(), evt.getY())) {
+            Graphics2D g2 = (Graphics2D) m_panel.getGraphics();
+            switch (m_selected) {
+                case CIRCLE:
+                    Circle circle = new Circle(evt.getX(), evt.getY());
+                    AddShape addCommandCircle = new AddShape(shapeList, circle);
+                    addCommandCircle.execute(g2); // dessine le cercle
+                    elements.add(circle); //enregistre pour l'export
+                    break;
 
-        if (m_panel.contains(evt.getX(), evt.getY()))
-        {
-        	Graphics2D g2 = (Graphics2D) m_panel.getGraphics();
-        	switch(m_selected)
-        	{
-		    	case CIRCLE: 		Circle circle = new Circle(evt.getX(), evt.getY());
-                                    elements.add(circle);
-                                    circle.draw(g2);
-									break;
-	    		case TRIANGLE: 		Triangle triangle = new Triangle(evt.getX(), evt.getY());
-                                    elements.add(triangle);
-                                    triangle.draw(g2);
-									break;
-        		case SQUARE: 		Square square = new Square(evt.getX(), evt.getY());
-                                    elements.add(square);
-                                    square.draw(g2);
-        							break;
-        		default: 			System.out.println("No shape named " + m_selected);
- 
-        	}
+                case TRIANGLE:
+                    Triangle triangle = new Triangle(evt.getX(), evt.getY());
+                    AddShape addCommandTriangle = new AddShape(shapeList, triangle);
+                    addCommandTriangle.execute(g2); // dessine le triangle
+                    elements.add(triangle); //enregistre pour l'export
+                    break;
+
+                case SQUARE:
+                    Square square = new Square(evt.getX(), evt.getY());
+                    AddShape addCommandSquare = new AddShape(shapeList, square);
+                    addCommandSquare.execute(g2); // dessine le carré
+                    elements.add(square); //enregistre pour l'export
+                    break;
+                default:
+                    System.out.println("No shape named " + m_selected);
+            }
+        }
+        this.requestFocusInWindow(); //reprend le focus sur le clavier
+
+    }
+    
+
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z) { //Ctrl + Z
+            repaint(); //remet l'écran à blanc
+            RemoveShape removeCommand = new RemoveShape(shapeList);
+            removeCommand.execute(null); //enlève la dernière forme de la liste
+            if (!elements.isEmpty()) { //enlève la dernière forme pour l'export
+                elements.remove(elements.size() - 1);
+            }
+
         }
     }
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        for (SimpleShape shape : shapeList.getAllShapes()) {
+            Graphics2D g2 = (Graphics2D) m_panel.getGraphics();
+            shape.draw(g2); //redessine les formes, sauf la dernière qui a été effacée
+        }
+    }
+    
 
     /**
      * Implements an empty method for the <tt>MouseListener</tt> interface.
@@ -365,5 +402,9 @@ public class JDrawingFrame extends JFrame
         }
     }
 }
+
+
+   
+
 
 }
