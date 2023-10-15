@@ -56,7 +56,6 @@ import fr.shapes.ShapesList;
 import fr.shapes.SimpleShape;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
-import javafx.scene.shape.Shape;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
