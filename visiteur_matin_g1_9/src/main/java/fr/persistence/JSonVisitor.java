@@ -1,7 +1,6 @@
 package fr.persistence;
 
 import fr.shapes.Circle;
-import fr.shapes.SimpleShape;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
@@ -15,6 +14,12 @@ public class JSonVisitor implements Visitor {
     public JSonVisitor() {
     }
 
+
+    /**
+     * Visite un objet de type Circle et génère une représentation JSON.
+     *
+     * @param circle L'objet Circle à visiter.
+    */
     @Override
     public void visit(Circle circle) {
         // Json representation for circle
@@ -28,6 +33,11 @@ public class JSonVisitor implements Visitor {
         representation = jsonBuilder.toString();
     }
 
+    /**
+     * Visite un objet de type Square et génère une représentation JSON.
+     *
+     * @param square L'objet Square à visiter.
+    */
     @Override
     public void visit(Square square) {
         // Json representation for square
@@ -41,6 +51,11 @@ public class JSonVisitor implements Visitor {
         representation = jsonBuilder.toString();
     }
 
+     /**
+     * Visite un objet de type Triangle et génère une représentation JSON.
+     *
+     * @param triangle L'objet Triangle à visiter.
+    */
     @Override
     public void visit(Triangle triangle) {
         // Json representation for triangle

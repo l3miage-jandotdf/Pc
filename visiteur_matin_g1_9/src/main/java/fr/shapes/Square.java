@@ -45,9 +45,9 @@ public class Square implements SimpleShape, Visitable, Element {
     }
 
     /**
-     * Implements the <tt>SimpleShape.draw()</tt> method for painting
-     * the shape.
-     * @param g2 The graphics object used for painting.
+     * Implemente la méthode <tt>SimpleShape.draw()</tt> pour dessiner
+     * la forme.
+     * @param g2 l'objet graphique utilisé pour le dessin.
      */
     public void draw(Graphics2D g2) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -60,16 +60,36 @@ public class Square implements SimpleShape, Visitable, Element {
         g2.draw(new Rectangle2D.Double(m_x, m_y, 50, 50));
     }
 
+
+   /**
+    * Accepte un visiteur pour cet objet Square.
+    * Cette méthode est utilisée pour permettre aux visiteurs externes d'interagir avec l'objet Square
+    * et d'effectuer des opérations spécifiques sur celui-ci.
+    *
+    * @param visitor L'objet Visitor qui visitera et effectuera des actions sur cet objet Square.
+    */
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
+
+    /**
+    * Obtient la coordonnée x du carré.
+    *
+    * @return La coordonnée x du carré.
+    */
     @Override
     public int getX() {
         return m_x;
     }
 
+
+    /**
+    * Obtient la coordonnée y du carré.
+    *
+    * @return La coordonnée y du carré.
+    */
     @Override
     public int getY() {
         return m_y;
