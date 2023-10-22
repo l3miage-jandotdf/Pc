@@ -148,7 +148,7 @@ public class JDrawingFrame extends JFrame
      * @param name The name of the injected <tt>SimpleShape</tt>.
      * @param icon The icon associated with the injected <tt>SimpleShape</tt>.
     **/
-    private void addShape(Shapes shape, ImageIcon icon)
+    public void addShape(Shapes shape, ImageIcon icon)
     {
         JButton button = new JButton(icon);
 		button.setBorderPainted(false);
