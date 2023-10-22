@@ -81,8 +81,9 @@ public class JDrawingFrame extends JFrame
     private JLabel label;
     private ActionListener reusableActionListener = new ShapeActionListener();
     private List<Element> elements = new ArrayList<>();
+
     private ShapesList shapeList = new ShapesList();
-    
+
     /**
      * Tracks buttons to manage the background.
      */
@@ -388,11 +389,21 @@ public class JDrawingFrame extends JFrame
         }
     }
 
-    public void addTriangle(Triangle triangle) {
-        shapeList.addShape(triangle); // Vous devrez adapter ceci à votre structure de données
-        elements.add(triangle);
+    /**
+     * Utilisée pour le test, simulation de la pose de formes par la souris 
+     * @param shape une forme
+     */
+    public void addShape(SimpleShape shape) {
+        shapeList.addShape(shape);
+        elements.add((Element)shape);
     }
     
+    public ShapesList getShapeList() {
+        return shapeList;
+    }
+    public List<Element> getElements() {
+        return elements;
+    }
     
 
 

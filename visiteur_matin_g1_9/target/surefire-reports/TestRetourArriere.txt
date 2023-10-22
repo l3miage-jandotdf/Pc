@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: TestRetourArriere
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.295 s <<< FAILURE! - in TestRetourArriere
+TestRetourArriere.testRetourArriere  Time elapsed: 0.283 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "java.net.URL.toExternalForm()" because "location" is null
+	at TestRetourArriere.testRetourArriere(TestRetourArriere.java:15)
+
