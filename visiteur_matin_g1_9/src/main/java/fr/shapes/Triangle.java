@@ -35,28 +35,28 @@ import fr.persistence.Visitor;
  */
 public class Triangle implements SimpleShape, Visitable, Element {
 
-    int m_x;
+    int x;
 
-    int m_y;
+    int y;
 
     public Triangle(int x, int y) {
-        m_x = x - 25;
-        m_y = y - 25;
+        this.x = x - 25;
+        this.y = y - 25;
     }
 
     /**
-     * Implements the <tt>SimpleShape.draw()</tt> method for painting
-     * the shape.
-     * @param g2 The graphics object used for painting.
-     */
+     * Implémente la méthode <tt>SimpleShape.draw()</tt> pour dessiner
+     * la forme.
+     * @param g2 L'objet graphique utilisé pour le dessin.
+    */
     public void draw(Graphics2D g2) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint gradient = new GradientPaint(m_x, m_y, Color.GREEN, m_x + 50, m_y, Color.WHITE);
+        GradientPaint gradient = new GradientPaint(x, y, Color.GREEN, x + (float)50, y, Color.WHITE);
         g2.setPaint(gradient);
-        int[] xcoords = { m_x + 25, m_x, m_x + 50 };
-        int[] ycoords = { m_y, m_y + 50, m_y + 50 };
+        int[] xcoords = { x + 25, x, x + 50 };
+        int[] ycoords = { y, y + 50, y + 50 };
         GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD, xcoords.length);
-        polygon.moveTo(m_x + 25, m_y);
+        polygon.moveTo(x + (float)25, y);
         for (int i = 0; i < xcoords.length; i++) {
             polygon.lineTo(xcoords[i], ycoords[i]);
         }
@@ -68,18 +68,36 @@ public class Triangle implements SimpleShape, Visitable, Element {
         g2.draw(polygon);
     }
 
+
+    /**
+    * Accepte un visiteur pour cet objet Triangle.
+    * Cette méthode est utilisée pour permettre aux visiteurs externes d'interagir avec l'objet Triangle
+    * et d'effectuer des opérations spécifiques sur celui-ci.
+    *
+    * @param visitor L'objet Visitor qui visitera et effectuera des actions sur cet objet Triangle.
+    */
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
+    /**
+     * Obtient la coordonnée x de l'objet Triangle.
+     *
+     * @return La coordonnée x de l'objet Triangle.
+    */
     @Override
     public int getX() {
-        return m_x;
+        return x;
     }
 
+    /**
+     * Obtient la coordonnée y de l'objet Triangle.
+     *
+     * @return La coordonnée y de l'objet Triangle.
+    */
     @Override
     public int getY() {
-        return m_y;
+        return y;
     }
 }

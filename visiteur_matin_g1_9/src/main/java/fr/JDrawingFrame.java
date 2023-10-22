@@ -28,8 +28,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ import javax.swing.JToolBar;
 import fr.commands.AddShape;
 import fr.commands.RemoveShape;
 import fr.persistence.JSonVisitor;
+import fr.persistence.Visitor;
 import fr.persistence.XMLVisitor;
 import fr.shapes.Circle;
 import fr.shapes.Element;
@@ -72,18 +75,18 @@ public class JDrawingFrame extends JFrame
 {
 	private enum Shapes {SQUARE, TRIANGLE, CIRCLE};
     private static final long serialVersionUID = 1L;
-    private JToolBar m_toolbar;
-    private Shapes m_selected;
-    private JPanel m_panel;
-    private JLabel m_label;
-    private ActionListener m_reusableActionListener = new ShapeActionListener();
+    private JToolBar toolbar;
+    private Shapes selected;
+    private JPanel panel;
+    private JLabel label;
+    private ActionListener reusableActionListener = new ShapeActionListener();
     private List<Element> elements = new ArrayList<>();
     private ShapesList shapeList = new ShapesList();
     
     /**
      * Tracks buttons to manage the background.
      */
-    private Map<Shapes, JButton> m_buttons = new HashMap<>();
+    private Map<Shapes, JButton> buttons = new HashMap<>();
 
     /**
      * Default constructor that populates the main window.
@@ -93,23 +96,23 @@ public class JDrawingFrame extends JFrame
     {
         super(frameName);
         // Instantiates components
-        m_toolbar = new JToolBar("Toolbar");
-        m_panel = new JPanel();
-        m_panel.setBackground(Color.WHITE);
-        m_panel.setLayout(null);
-        m_panel.setMinimumSize(new Dimension(400, 400));
-        m_panel.addMouseListener(this);
+        toolbar = new JToolBar("Toolbar");
+        panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(null);
+        panel.setMinimumSize(new Dimension(400, 400));
+        panel.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocusInWindow();
-        m_panel.addMouseMotionListener(this);
-        m_label = new JLabel(" ", JLabel.LEFT);
+        panel.addMouseMotionListener(this);
+        label = new JLabel(" ", JLabel.LEFT);
         
         // Fills the panel
         setLayout(new BorderLayout());
-        add(m_toolbar, BorderLayout.NORTH);
-        add(m_panel, BorderLayout.CENTER);
-        add(m_label, BorderLayout.SOUTH);
+        add(toolbar, BorderLayout.NORTH);
+        add(panel, BorderLayout.CENTER);
+        add(label, BorderLayout.SOUTH);
         
         // Add shapes in the menu
         addShape(Shapes.SQUARE, new ImageIcon(getClass().getResource("images/square.png")));
@@ -124,19 +127,19 @@ public class JDrawingFrame extends JFrame
         exportButtonXML.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                exportShapesToXML(); 
+                exportShapes(false); 
             }
         });
 
         exportButtonJSON.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                exportShapesToJSON(); 
+                exportShapes(true); 
             }
         });
 
-        m_toolbar.add(exportButtonXML);
-        m_toolbar.add(exportButtonJSON);
+        toolbar.add(exportButtonXML);
+        toolbar.add(exportButtonJSON);
 
         
 
@@ -152,17 +155,17 @@ public class JDrawingFrame extends JFrame
     {
         JButton button = new JButton(icon);
 		button.setBorderPainted(false);
-        m_buttons.put(shape, button);
+        buttons.put(shape, button);
         button.setActionCommand(shape.toString());
-        button.addActionListener(m_reusableActionListener);
+        button.addActionListener(reusableActionListener);
 
-        if (m_selected == null)
+        if (selected == null)
         {
             button.doClick();
         }
 
-        m_toolbar.add(button);
-        m_toolbar.validate();
+        toolbar.add(button);
+        toolbar.validate();
         repaint();
     }
 
@@ -173,9 +176,9 @@ public class JDrawingFrame extends JFrame
      * @param evt The associated mouse event.
     **/
     public void mouseClicked(MouseEvent evt) {
-        if (m_panel.contains(evt.getX(), evt.getY())) {
-            Graphics2D g2 = (Graphics2D) m_panel.getGraphics();
-            switch (m_selected) {
+        if (panel.contains(evt.getX(), evt.getY())) {
+            Graphics2D g2 = (Graphics2D) panel.getGraphics();
+            switch (selected) {
                 case CIRCLE:
                     Circle circle = new Circle(evt.getX(), evt.getY());
                     AddShape addCommandCircle = new AddShape(shapeList, circle);
@@ -197,7 +200,6 @@ public class JDrawingFrame extends JFrame
                     elements.add(square); //enregistre pour l'export
                     break;
                 default:
-                    System.out.println("No shape named " + m_selected);
             }
         }
         this.requestFocusInWindow(); //reprend le focus sur le clavier
@@ -225,7 +227,7 @@ public class JDrawingFrame extends JFrame
     @Override
     public void keyReleased(KeyEvent e) {
         for (SimpleShape shape : shapeList.getAllShapes()) {
-            Graphics2D g2 = (Graphics2D) m_panel.getGraphics();
+            Graphics2D g2 = (Graphics2D) panel.getGraphics();
             shape.draw(g2); //redessine les formes, sauf la dernière qui a été effacée
         }
     }
@@ -246,8 +248,8 @@ public class JDrawingFrame extends JFrame
     **/
     public void mouseExited(MouseEvent evt)
     {
-    	m_label.setText(" ");
-    	m_label.repaint();
+    	label.setText(" ");
+    	label.repaint();
     }
 
     /**
@@ -288,7 +290,7 @@ public class JDrawingFrame extends JFrame
     }
     
     private void modifyLabel(MouseEvent evt) {
-    	m_label.setText("(" + evt.getX() + "," + evt.getY() + ")");    	
+    	label.setText("(" + evt.getX() + "," + evt.getY() + ")");    	
     }
 
     /**
@@ -301,13 +303,13 @@ public class JDrawingFrame extends JFrame
         public void actionPerformed(ActionEvent evt)
         {
         	// Itère sur tous les boutons
-        	Iterator<Shapes> keys = m_buttons.keySet().iterator();
+        	Iterator<Shapes> keys = buttons.keySet().iterator();
         	while (keys.hasNext()) {
         		Shapes shape = keys.next();
-				JButton btn = m_buttons.get(shape);
+				JButton btn = buttons.get(shape);
 				if (evt.getActionCommand().equals(shape.toString())) {
 					btn.setBorderPainted(true);
-					m_selected = shape;
+					selected = shape;
 		        } else {
 					btn.setBorderPainted(false);
 				}
@@ -317,90 +319,82 @@ public class JDrawingFrame extends JFrame
     }
 
 
-    /*Note : nous avons hésité à regrouper les deux fonctions d'export en une mais les petites variations
-      les auraient rendues plus ilisibles...
+    /** Écris le contenu du dessin dans un fichier (.json ou .xml)
+     * @param isJSON true si l'on veut un json, false pour un xml
+     * @return selectedFile le fichier créé
      */
-    public void exportShapesToJSON() {
-        JSonVisitor jsonVisitor = new JSonVisitor();
+    public File exportShapes(boolean isJSON) {
+        Visitor visitor = isJSON ? new JSonVisitor() : new XMLVisitor();
+        String extension = isJSON ? "json" : "xml";
+    
         JFileChooser fileChooser = new JFileChooser();
     
-        // Asks user where he wants to save the file
+        // Asks the user where they want to save the file
         int result = fileChooser.showSaveDialog(this); // "this" is the main window
     
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
     
-            // checks that there is the ".json"
+            // Check that the file has the correct extension
             String filePath = selectedFile.getAbsolutePath();
-            if (!filePath.endsWith(".json")) {
-                filePath += ".json";
+            if (!filePath.endsWith("." + extension)) {
+                filePath += "." + extension;
                 selectedFile = new File(filePath);
             }
     
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile));
-                writer.write("{");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile))) {
+                writer.write(isJSON ? "{" : "");
                 writer.newLine();
-                writer.write("  \"shapes\": [");
+                writer.write(isJSON ? "  \"shapes\": [" : "");
                 writer.newLine();
                 boolean firstShape = true;
                 for (Element element : elements) {
-                    element.accept(jsonVisitor);
-                    String jsonRepresentation = jsonVisitor.getRepresentation();
+                    element.accept(visitor);
+                    String representation = visitor.getRepresentation();
                     if (!firstShape) {
-                        writer.write(",");
+                        writer.write(isJSON ? "," : "");
                         writer.newLine();
                     }
-                    writer.write("    ");
-                    writer.write(jsonRepresentation);
+                    writer.write(representation);
                     firstShape = false;
                 }
                 writer.newLine();
-                writer.write("  ]");
+                writer.write(isJSON ? "  ]" : "");
                 writer.newLine();
-                writer.write("}");
-                writer.close();
-                System.out.println("Exportation au format JSON réussie.");
+                writer.write(isJSON ? "}" : "");
             } catch (IOException e) {
                 e.printStackTrace();
-                System.err.println("Erreur lors de l'exportation au format JSON.");
             }
+            return selectedFile;
         }
+        return null;
     }
 
-    public void exportShapesToXML() {
-    XMLVisitor xmlVisitor = new XMLVisitor();
-    JFileChooser fileChooser = new JFileChooser();
-
-    // Asks user where he wants to save the file
-    int result = fileChooser.showSaveDialog(this); // "this" is the main window
-
-    if (result == JFileChooser.APPROVE_OPTION) {
-        File selectedFile = fileChooser.getSelectedFile();
-
-        // check that there is the ".xml"
-        String filePath = selectedFile.getAbsolutePath();
-        if (!filePath.endsWith(".xml")) {
-            filePath += ".xml";
-            selectedFile = new File(filePath);
-        }
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile));
-            for (Element element : elements) {
-                element.accept(xmlVisitor);
-                String xmlRepresentation = xmlVisitor.getRepresentation();
-                writer.write(xmlRepresentation);
-                writer.newLine();
+    /** Lit le fichier créé --> Sert pour le test <--
+     * @param file fichier json ou xml
+     * @return String le contenu du fichier
+     */
+    public String readFileContent(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            StringBuilder content = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append('\n');
             }
-            writer.close();
-            System.out.println("Exportation au format XML réussie.");
+            return content.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Erreur lors de l'exportation au format XML.");
+            return null;
         }
     }
-}
+
+    public void addTriangle(Triangle triangle) {
+        shapeList.addShape(triangle); // Vous devrez adapter ceci à votre structure de données
+        elements.add(triangle);
+    }
+    
+    
+
 
 
    

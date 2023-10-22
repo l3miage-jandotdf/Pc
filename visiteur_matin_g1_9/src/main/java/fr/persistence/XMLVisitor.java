@@ -1,7 +1,6 @@
 package fr.persistence;
 
 import fr.shapes.Circle;
-import fr.shapes.SimpleShape;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
@@ -15,6 +14,12 @@ public class XMLVisitor implements Visitor {
     public XMLVisitor() {
     }
 
+
+    /**
+     * Visite un objet de type Circle et génère une représentation XML 
+     * 
+     * @param circle l'objet Circle à visiter
+    */
     @Override
     public void visit(Circle circle) {
         // XML representation for circle
@@ -28,6 +33,12 @@ public class XMLVisitor implements Visitor {
         representation = xmlBuilder.toString();
     }
 
+
+     /**
+     * Visite un objet de type Square et génère une représentation XML 
+     * 
+     * @param square l'objet Square à visiter
+    */
     @Override
     public void visit(Square square) {
         // XML representation for square
@@ -41,6 +52,12 @@ public class XMLVisitor implements Visitor {
         representation = xmlBuilder.toString();
     }
 
+
+     /**
+     * Visite un objet de type Triangle et génère une représentation XML 
+     * 
+     * @param triangle l'objet Triangle à visiter
+    */
     @Override
     public void visit(Triangle triangle) {
         // XML representation for square

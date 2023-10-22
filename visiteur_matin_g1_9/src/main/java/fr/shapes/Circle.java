@@ -29,41 +29,59 @@ import fr.persistence.Visitor;
 
 public class Circle implements SimpleShape, Visitable, Element {
 
-    int m_x;
+    int x;
 
-    int m_y;
+    int y;
 
     public Circle(int x, int y) {
-        m_x = x - 25;
-        m_y = y - 25;
+        this.x = x - 25;
+        this.y = y - 25;
     }
 
     /**
-     * Implements the <tt>SimpleShape.draw()</tt> method for painting
-     * the shape.
-     * @param g2 The graphics object used for painting.
-     */
+     * Implémente la méthode <tt>SimpleShape.draw()</tt> pour dessiner
+     * la forme.
+     * @param g2 L'objet graphique utilisé pour le dessin.
+    */
     public void draw(Graphics2D g2) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint gradient = new GradientPaint(m_x, m_y, Color.RED, m_x + 50, m_y, Color.WHITE);
+        GradientPaint gradient = new GradientPaint(x, y, Color.RED, x + (float)50, y, Color.WHITE);
         g2.setPaint(gradient);
-        g2.fill(new Ellipse2D.Double(m_x, m_y, 50, 50));
+        g2.fill(new Ellipse2D.Double(x, y, 50, 50));
         BasicStroke wideStroke = new BasicStroke(2.0f);
         g2.setColor(Color.black);
         g2.setStroke(wideStroke);
-        g2.draw(new Ellipse2D.Double(m_x, m_y, 50, 50));
+        g2.draw(new Ellipse2D.Double(x, y, 50, 50));
     }
 
+
+    /**
+     * Accepte un visiteur pour cet objet Circle.
+     * Cette méthode est utilisée pour permettre aux visiteurs externes d'interagir avec l'objet Circle
+     * et d'effectuer des opérations spécifiques sur celui-ci.
+     *
+     * @param visitor L'objet Visitor qui visitera et effectuera des actions sur cet objet Circle.
+    */
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
+    /**
+     * Obtient la coordonnée x de l'objet Circle.
+     *
+     * @return La coordonnée x de l'objet Circle.
+    */
     public int getX() {
-        return m_x;
+        return x;
     }
 
+    /**
+     * Obtient la coordonnée y de l'objet Circle.
+     *
+     * @return La coordonnée y de l'objet Circle.
+    */
     public int getY() {
-        return m_y;
+        return y;
     }
 }
