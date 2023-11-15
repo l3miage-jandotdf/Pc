@@ -9,7 +9,6 @@ import fr.shapes.Circle;
 import fr.shapes.Square;
 
 class TestRetourArriere {
-    //Lire le ReadMe :(
     /*
     @Test
     void testRetourArriere() {

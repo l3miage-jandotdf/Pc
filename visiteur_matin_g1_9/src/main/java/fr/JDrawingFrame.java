@@ -122,15 +122,23 @@ public class JDrawingFrame extends JFrame
 
         setPreferredSize(new Dimension(400, 400));
 
+        JButton selectButton = new JButton("Select");
         JButton exportButtonXML = new JButton("XML");
         JButton exportButtonJSON = new JButton("JSON");
+
+        selectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selected = null;
+            }
+        }); 
 
         exportButtonXML.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 exportShapes(false); 
             }
-        });
+        });        
 
         exportButtonJSON.addActionListener(new ActionListener() {
             @Override
@@ -139,9 +147,9 @@ public class JDrawingFrame extends JFrame
             }
         });
 
+        toolbar.add(selectButton);
         toolbar.add(exportButtonXML);
         toolbar.add(exportButtonJSON);
-
         
 
     }
@@ -171,6 +179,29 @@ public class JDrawingFrame extends JFrame
     }
 
     /**
+     * Sélectionne la forme courante
+     * @param name The name of the injected <tt>SimpleShape</tt>.
+     * @param icon The icon associated with the injected <tt>SimpleShape</tt>.
+    **/    
+    private SimpleShape getSelectedShape(int mouseX, int mouseY) {
+        for (SimpleShape shape : shapeList.getAllShapes()) {
+            if (isMouseInsideShape(shape, mouseX, mouseY)) {
+                return shape; 
+            }
+        }
+        return null; // Aucune forme sélectionnée
+    }
+
+    private boolean isMouseInsideShape(SimpleShape shape, int mouseX, int mouseY) {
+        int x = shape.getX(); 
+        int y = shape.getY();
+        int width = 50;
+        int height = 50; 
+    
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
+    }
+
+    /**
      *  Use the factory to abstract shape creation
      * Implements method for the <tt>MouseListener</tt> interface to
      * draw the selected shape into the drawing canvas.
@@ -179,28 +210,32 @@ public class JDrawingFrame extends JFrame
     public void mouseClicked(MouseEvent evt) {
         if (panel.contains(evt.getX(), evt.getY())) {
             Graphics2D g2 = (Graphics2D) panel.getGraphics();
-            switch (selected) {
-                case CIRCLE:
-                    Circle circle = new Circle(evt.getX(), evt.getY());
-                    AddShape addCommandCircle = new AddShape(shapeList, circle);
-                    addCommandCircle.execute(g2); // dessine le cercle
-                    elements.add(circle); //enregistre pour l'export
-                    break;
+            if (selected != null){
+                switch (selected) {
+                    case CIRCLE:
+                        Circle circle = new Circle(evt.getX(), evt.getY());
+                        AddShape addCommandCircle = new AddShape(shapeList, circle);
+                        addCommandCircle.execute(g2); // dessine le cercle
+                        elements.add(circle); //enregistre pour l'export
+                        break;
 
-                case TRIANGLE:
-                    Triangle triangle = new Triangle(evt.getX(), evt.getY());
-                    AddShape addCommandTriangle = new AddShape(shapeList, triangle);
-                    addCommandTriangle.execute(g2); // dessine le triangle
-                    elements.add(triangle); //enregistre pour l'export
-                    break;
+                    case TRIANGLE:
+                        Triangle triangle = new Triangle(evt.getX(), evt.getY());
+                        AddShape addCommandTriangle = new AddShape(shapeList, triangle);
+                        addCommandTriangle.execute(g2); // dessine le triangle
+                        elements.add(triangle); //enregistre pour l'export
+                        break;
 
-                case SQUARE:
-                    Square square = new Square(evt.getX(), evt.getY());
-                    AddShape addCommandSquare = new AddShape(shapeList, square);
-                    addCommandSquare.execute(g2); // dessine le carré
-                    elements.add(square); //enregistre pour l'export
-                    break;
-                default:
+                    case SQUARE:
+                        Square square = new Square(evt.getX(), evt.getY());
+                        AddShape addCommandSquare = new AddShape(shapeList, square);
+                        addCommandSquare.execute(g2); // dessine le carré
+                        elements.add(square); //enregistre pour l'export
+                        break;
+                    default:
+                        break;
+
+                }
             }
         }
         this.requestFocusInWindow(); //reprend le focus sur le clavier
@@ -258,8 +293,8 @@ public class JDrawingFrame extends JFrame
      * shape dragging.
      * @param evt The associated mouse event.
     **/
-    public void mousePressed(MouseEvent evt)
-    {
+    public void mousePressed(MouseEvent e) {
+        
     }
 
     /**
@@ -269,6 +304,11 @@ public class JDrawingFrame extends JFrame
     **/
     public void mouseReleased(MouseEvent evt)
     {
+      
+        for (SimpleShape shape : shapeList.getAllShapes()) {
+            Graphics2D g2 = (Graphics2D) panel.getGraphics();
+            shape.draw(g2); //redessine les formes
+        }
     }
 
     /**
@@ -276,8 +316,18 @@ public class JDrawingFrame extends JFrame
      * move a dragged shape.
      * @param evt The associated mouse event.
     **/
-    public void mouseDragged(MouseEvent evt)
+    public void mouseDragged(MouseEvent e)
     {
+        System.out.println(e);
+
+        SimpleShape selectedShape = getSelectedShape(e.getX(), e.getY());
+        if (selectedShape != null) {
+            System.out.println("HEY");
+            selectedShape.setX(e.getX());
+            selectedShape.setY(e.getY());
+            repaint();
+        }
+        
     }
 
     /**

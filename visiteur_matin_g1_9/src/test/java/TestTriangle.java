@@ -21,7 +21,6 @@ class TestTriangle {
         assertEquals(expectedY-25, triangle.getY());
     }
 
-    //Lire le ReadMe :(
     /*
     @Test
     void testTriangleExportToJson() {

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLVisitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">visiteur_matin_g1_9</a> &gt; <a href="index.source.html" class="el_package">fr.persistence</a> &gt; <span class="el_source">XMLVisitor.java</span></div><h1>XMLVisitor.java</h1><pre class="source lang-java linenums">package fr.persistence;
+
+import fr.shapes.Circle;
+import fr.shapes.Square;
+import fr.shapes.Triangle;
+
+/**
+ * @author &lt;a href=&quot;mailto:christophe.saint-marcel@univ-grenoble-alpes.fr&quot;&gt;Christophe&lt;/a&gt;
+ */
+public class XMLVisitor implements Visitor {
+
+<span class="nc" id="L12">    private String representation = null;</span>
+
+<span class="nc" id="L14">    public XMLVisitor() {</span>
+<span class="nc" id="L15">    }</span>
+
+
+    /**
+     * Visite un objet de type Circle et gÃ©nÃ¨re une reprÃ©sentation XML 
+     * 
+     * @param circle l'objet Circle Ã  visiter
+    */
+    @Override
+    public void visit(Circle circle) {
+        // XML representation for circle
+<span class="nc" id="L26">        StringBuilder xmlBuilder = new StringBuilder();</span>
+<span class="nc" id="L27">        xmlBuilder.append(&quot;&lt;shape&gt;&quot;);</span>
+<span class="nc" id="L28">        xmlBuilder.append(&quot;&lt;type&gt;circle&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L29">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(circle.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
+<span class="nc" id="L30">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(circle.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
+<span class="nc" id="L31">        xmlBuilder.append(&quot;&lt;/shape&gt;&quot;);</span>
+        
+<span class="nc" id="L33">        representation = xmlBuilder.toString();</span>
+<span class="nc" id="L34">    }</span>
+
+
+     /**
+     * Visite un objet de type Square et gÃ©nÃ¨re une reprÃ©sentation XML 
+     * 
+     * @param square l'objet Square Ã  visiter
+    */
+    @Override
+    public void visit(Square square) {
+        // XML representation for square
+<span class="nc" id="L45">        StringBuilder xmlBuilder = new StringBuilder();</span>
+<span class="nc" id="L46">        xmlBuilder.append(&quot;&lt;shape&gt;&quot;);</span>
+<span class="nc" id="L47">        xmlBuilder.append(&quot;&lt;type&gt;square&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L48">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(square.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
+<span class="nc" id="L49">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(square.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
+<span class="nc" id="L50">        xmlBuilder.append(&quot;&lt;/shape&gt;&quot;);</span>
+        
+<span class="nc" id="L52">        representation = xmlBuilder.toString();</span>
+<span class="nc" id="L53">    }</span>
+
+
+     /**
+     * Visite un objet de type Triangle et gÃ©nÃ¨re une reprÃ©sentation XML 
+     * 
+     * @param triangle l'objet Triangle Ã  visiter
+    */
+    @Override
+    public void visit(Triangle triangle) {
+        // XML representation for square
+<span class="nc" id="L64">        StringBuilder xmlBuilder = new StringBuilder();</span>
+<span class="nc" id="L65">        xmlBuilder.append(&quot;&lt;shape&gt;&quot;);</span>
+<span class="nc" id="L66">        xmlBuilder.append(&quot;&lt;type&gt;triangle&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L67">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(triangle.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
+<span class="nc" id="L68">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(triangle.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
+<span class="nc" id="L69">        xmlBuilder.append(&quot;&lt;/shape&gt;&quot;);</span>
+        
+<span class="nc" id="L71">        representation = xmlBuilder.toString();</span>
+<span class="nc" id="L72">    }</span>
+
+    /**
+     * @return the representation in XML example for a Triangle:
+     *
+     *         &lt;pre&gt;
+     * {@code
+     *  &lt;shape&gt;
+     *    &lt;type&gt;triangle&lt;/type&gt;
+     *    &lt;x&gt;-25&lt;/x&gt;
+     *    &lt;y&gt;-25&lt;/y&gt;
+     *  &lt;/shape&gt;
+     * }
+     * &lt;/pre&gt;
+     */
+    public String getRepresentation() {
+<span class="nc" id="L88">        return representation;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

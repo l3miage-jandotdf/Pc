@@ -21,7 +21,6 @@ class TestSquare {
         assertEquals(expectedY-25, square.getY());
     }
 
-    //Lire le ReadMe :(
     /*
     @Test
     void testSquareExportToJson() {
