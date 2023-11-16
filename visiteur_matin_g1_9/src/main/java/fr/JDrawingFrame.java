@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -81,6 +82,8 @@ public class JDrawingFrame extends JFrame
     private JLabel label;
     private ActionListener reusableActionListener = new ShapeActionListener();
     private List<Element> elements = new ArrayList<>();
+    private boolean isDragging = false;
+    private SimpleShape selectedShape;
 
     private ShapesList shapeList = new ShapesList();
 
@@ -179,7 +182,7 @@ public class JDrawingFrame extends JFrame
     }
 
     /**
-     * Sélectionne la forme courante
+     * SÃ©lectionne la forme courante
      * @param name The name of the injected <tt>SimpleShape</tt>.
      * @param icon The icon associated with the injected <tt>SimpleShape</tt>.
     **/    
@@ -189,7 +192,7 @@ public class JDrawingFrame extends JFrame
                 return shape; 
             }
         }
-        return null; // Aucune forme sélectionnée
+        return null; // Aucune forme sÃ©lectionnÃ©e
     }
 
     private boolean isMouseInsideShape(SimpleShape shape, int mouseX, int mouseY) {
@@ -229,7 +232,7 @@ public class JDrawingFrame extends JFrame
                     case SQUARE:
                         Square square = new Square(evt.getX(), evt.getY());
                         AddShape addCommandSquare = new AddShape(shapeList, square);
-                        addCommandSquare.execute(g2); // dessine le carré
+                        addCommandSquare.execute(g2); // dessine le carrÃ©
                         elements.add(square); //enregistre pour l'export
                         break;
                     default:
@@ -247,10 +250,10 @@ public class JDrawingFrame extends JFrame
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z) { //Ctrl + Z
-            repaint(); //remet l'écran à blanc
+            repaint(); //remet l'Ã©cran Ã  blanc
             RemoveShape removeCommand = new RemoveShape(shapeList);
-            removeCommand.execute(null); //enlève la dernière forme de la liste
-            if (!elements.isEmpty()) { //enlève la dernière forme pour l'export
+            removeCommand.execute(null); //enlÃ¨ve la derniÃ¨re forme de la liste
+            if (!elements.isEmpty()) { //enlÃ¨ve la derniÃ¨re forme pour l'export
                 elements.remove(elements.size() - 1);
             }
 
@@ -264,7 +267,7 @@ public class JDrawingFrame extends JFrame
     public void keyReleased(KeyEvent e) {
         for (SimpleShape shape : shapeList.getAllShapes()) {
             Graphics2D g2 = (Graphics2D) panel.getGraphics();
-            shape.draw(g2); //redessine les formes, sauf la dernière qui a été effacée
+            shape.draw(g2); //redessine les formes, sauf la derniÃ¨re qui a Ã©tÃ© effacÃ©e
         }
     }
     
@@ -297,6 +300,14 @@ public class JDrawingFrame extends JFrame
         
     }
 
+    public void refresh(){
+        Graphics2D g2 = (Graphics2D) panel.getGraphics();
+        for (SimpleShape shape : shapeList.getAllShapes()) {
+            shape.draw(g2); //redessine les formes
+            System.out.println("euh ?");
+        }
+    }
+
     /**
      * Implements method for the <tt>MouseListener</tt> interface to complete
      * shape dragging.
@@ -304,10 +315,18 @@ public class JDrawingFrame extends JFrame
     **/
     public void mouseReleased(MouseEvent evt)
     {
-      
-        for (SimpleShape shape : shapeList.getAllShapes()) {
-            Graphics2D g2 = (Graphics2D) panel.getGraphics();
-            shape.draw(g2); //redessine les formes
+
+        if (isDragging == true){
+            isDragging = false;
+            System.out.println("yoooooooo");
+            if (selectedShape != null) {
+                
+                System.out.println("HEY");
+                selectedShape.setX(evt.getX());
+                selectedShape.setY(evt.getY());
+                refresh();
+            }
+
         }
     }
 
@@ -318,16 +337,17 @@ public class JDrawingFrame extends JFrame
     **/
     public void mouseDragged(MouseEvent e)
     {
-        System.out.println(e);
+        System.out.println("hep");
+        System.out.println(isDragging);
 
-        SimpleShape selectedShape = getSelectedShape(e.getX(), e.getY());
-        if (selectedShape != null) {
-            System.out.println("HEY");
-            selectedShape.setX(e.getX());
-            selectedShape.setY(e.getY());
+        if (isDragging == false){
+            System.out.println("ALLO");
+            selectedShape = getSelectedShape(e.getX(), e.getY());
             repaint();
+            System.out.println("selectedShape");
+
         }
-        
+        isDragging = true;
     }
 
     /**
