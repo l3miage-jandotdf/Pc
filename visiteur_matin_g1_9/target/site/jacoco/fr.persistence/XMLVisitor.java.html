@@ -7,12 +7,11 @@ import fr.shapes.Triangle;
 /**
  * @author &lt;a href=&quot;mailto:christophe.saint-marcel@univ-grenoble-alpes.fr&quot;&gt;Christophe&lt;/a&gt;
  */
-public class XMLVisitor implements Visitor {
+<span class="nc" id="L10">public class XMLVisitor implements Visitor {</span>
 
 <span class="nc" id="L12">    private String representation = null;</span>
-
-<span class="nc" id="L14">    public XMLVisitor() {</span>
-<span class="nc" id="L15">    }</span>
+    public static final String BEGINSHAPE = &quot;&lt;shape&gt;&quot;;
+    public static final String ENDSHAPE = &quot;&lt;/shape&gt;&quot;;
 
 
     /**
@@ -23,15 +22,15 @@ public class XMLVisitor implements Visitor {
     @Override
     public void visit(Circle circle) {
         // XML representation for circle
-<span class="nc" id="L26">        StringBuilder xmlBuilder = new StringBuilder();</span>
-<span class="nc" id="L27">        xmlBuilder.append(&quot;&lt;shape&gt;&quot;);</span>
-<span class="nc" id="L28">        xmlBuilder.append(&quot;&lt;type&gt;circle&lt;/type&gt;&quot;);</span>
-<span class="nc" id="L29">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(circle.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
-<span class="nc" id="L30">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(circle.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
-<span class="nc" id="L31">        xmlBuilder.append(&quot;&lt;/shape&gt;&quot;);</span>
+<span class="nc" id="L25">        StringBuilder xmlBuilder = new StringBuilder();</span>
+<span class="nc" id="L26">        xmlBuilder.append(BEGINSHAPE);</span>
+<span class="nc" id="L27">        xmlBuilder.append(&quot;&lt;type&gt;circle&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L28">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(circle.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
+<span class="nc" id="L29">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(circle.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
+<span class="nc" id="L30">        xmlBuilder.append(BEGINSHAPE);</span>
         
-<span class="nc" id="L33">        representation = xmlBuilder.toString();</span>
-<span class="nc" id="L34">    }</span>
+<span class="nc" id="L32">        representation = xmlBuilder.toString();</span>
+<span class="nc" id="L33">    }</span>
 
 
      /**
@@ -42,15 +41,15 @@ public class XMLVisitor implements Visitor {
     @Override
     public void visit(Square square) {
         // XML representation for square
-<span class="nc" id="L45">        StringBuilder xmlBuilder = new StringBuilder();</span>
-<span class="nc" id="L46">        xmlBuilder.append(&quot;&lt;shape&gt;&quot;);</span>
-<span class="nc" id="L47">        xmlBuilder.append(&quot;&lt;type&gt;square&lt;/type&gt;&quot;);</span>
-<span class="nc" id="L48">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(square.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
-<span class="nc" id="L49">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(square.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
-<span class="nc" id="L50">        xmlBuilder.append(&quot;&lt;/shape&gt;&quot;);</span>
+<span class="nc" id="L44">        StringBuilder xmlBuilder = new StringBuilder();</span>
+<span class="nc" id="L45">        xmlBuilder.append(BEGINSHAPE);</span>
+<span class="nc" id="L46">        xmlBuilder.append(&quot;&lt;type&gt;square&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L47">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(square.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
+<span class="nc" id="L48">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(square.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
+<span class="nc" id="L49">        xmlBuilder.append(ENDSHAPE);</span>
         
-<span class="nc" id="L52">        representation = xmlBuilder.toString();</span>
-<span class="nc" id="L53">    }</span>
+<span class="nc" id="L51">        representation = xmlBuilder.toString();</span>
+<span class="nc" id="L52">    }</span>
 
 
      /**
@@ -61,15 +60,15 @@ public class XMLVisitor implements Visitor {
     @Override
     public void visit(Triangle triangle) {
         // XML representation for square
-<span class="nc" id="L64">        StringBuilder xmlBuilder = new StringBuilder();</span>
-<span class="nc" id="L65">        xmlBuilder.append(&quot;&lt;shape&gt;&quot;);</span>
-<span class="nc" id="L66">        xmlBuilder.append(&quot;&lt;type&gt;triangle&lt;/type&gt;&quot;);</span>
-<span class="nc" id="L67">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(triangle.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
-<span class="nc" id="L68">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(triangle.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
-<span class="nc" id="L69">        xmlBuilder.append(&quot;&lt;/shape&gt;&quot;);</span>
+<span class="nc" id="L63">        StringBuilder xmlBuilder = new StringBuilder();</span>
+<span class="nc" id="L64">        xmlBuilder.append(BEGINSHAPE);</span>
+<span class="nc" id="L65">        xmlBuilder.append(&quot;&lt;type&gt;triangle&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L66">        xmlBuilder.append(&quot;&lt;x&gt;&quot;).append(triangle.getX()).append(&quot;&lt;/x&gt;&quot;);</span>
+<span class="nc" id="L67">        xmlBuilder.append(&quot;&lt;y&gt;&quot;).append(triangle.getY()).append(&quot;&lt;/y&gt;&quot;);</span>
+<span class="nc" id="L68">        xmlBuilder.append(ENDSHAPE);</span>
         
-<span class="nc" id="L71">        representation = xmlBuilder.toString();</span>
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L70">        representation = xmlBuilder.toString();</span>
+<span class="nc" id="L71">    }</span>
 
     /**
      * @return the representation in XML example for a Triangle:
@@ -85,7 +84,7 @@ public class XMLVisitor implements Visitor {
      * &lt;/pre&gt;
      */
     public String getRepresentation() {
-<span class="nc" id="L88">        return representation;</span>
+<span class="nc" id="L87">        return representation;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -10,9 +10,8 @@ import fr.shapes.Triangle;
 public class XMLVisitor implements Visitor {
 
     private String representation = null;
-
-    public XMLVisitor() {
-    }
+    public static final String BEGINSHAPE = "<shape>";
+    public static final String ENDSHAPE = "</shape>";
 
 
     /**
@@ -24,11 +23,11 @@ public class XMLVisitor implements Visitor {
     public void visit(Circle circle) {
         // XML representation for circle
         StringBuilder xmlBuilder = new StringBuilder();
-        xmlBuilder.append("<shape>");
+        xmlBuilder.append(BEGINSHAPE);
         xmlBuilder.append("<type>circle</type>");
         xmlBuilder.append("<x>").append(circle.getX()).append("</x>");
         xmlBuilder.append("<y>").append(circle.getY()).append("</y>");
-        xmlBuilder.append("</shape>");
+        xmlBuilder.append(BEGINSHAPE);
         
         representation = xmlBuilder.toString();
     }
@@ -43,11 +42,11 @@ public class XMLVisitor implements Visitor {
     public void visit(Square square) {
         // XML representation for square
         StringBuilder xmlBuilder = new StringBuilder();
-        xmlBuilder.append("<shape>");
+        xmlBuilder.append(BEGINSHAPE);
         xmlBuilder.append("<type>square</type>");
         xmlBuilder.append("<x>").append(square.getX()).append("</x>");
         xmlBuilder.append("<y>").append(square.getY()).append("</y>");
-        xmlBuilder.append("</shape>");
+        xmlBuilder.append(ENDSHAPE);
         
         representation = xmlBuilder.toString();
     }
@@ -62,11 +61,11 @@ public class XMLVisitor implements Visitor {
     public void visit(Triangle triangle) {
         // XML representation for square
         StringBuilder xmlBuilder = new StringBuilder();
-        xmlBuilder.append("<shape>");
+        xmlBuilder.append(BEGINSHAPE);
         xmlBuilder.append("<type>triangle</type>");
         xmlBuilder.append("<x>").append(triangle.getX()).append("</x>");
         xmlBuilder.append("<y>").append(triangle.getY()).append("</y>");
-        xmlBuilder.append("</shape>");
+        xmlBuilder.append(ENDSHAPE);
         
         representation = xmlBuilder.toString();
     }

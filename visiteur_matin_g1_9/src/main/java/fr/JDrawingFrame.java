@@ -182,7 +182,7 @@ public class JDrawingFrame extends JFrame
     }
 
     /**
-     * SÃ©lectionne la forme courante
+     * Sélectionne la forme courante
      * @param name The name of the injected <tt>SimpleShape</tt>.
      * @param icon The icon associated with the injected <tt>SimpleShape</tt>.
     **/    
@@ -195,6 +195,12 @@ public class JDrawingFrame extends JFrame
         return null; // Aucune forme sÃ©lectionnÃ©e
     }
 
+    /**
+     * Retourne vrai si la souris est sur la forme
+     * @param shape une forme
+     * @param mouseX position x de la souris
+     * @param mouseY position y de la souris
+    **/  
     private boolean isMouseInsideShape(SimpleShape shape, int mouseX, int mouseY) {
         int x = shape.getX(); 
         int y = shape.getY();
@@ -205,8 +211,7 @@ public class JDrawingFrame extends JFrame
     }
 
     /**
-     *  Use the factory to abstract shape creation
-     * Implements method for the <tt>MouseListener</tt> interface to
+     *  S'exécute lorsque l'utilisateur clique
      * draw the selected shape into the drawing canvas.
      * @param evt The associated mouse event.
     **/
@@ -248,6 +253,10 @@ public class JDrawingFrame extends JFrame
 
 
     @Override
+     /**
+     * S'exécute lorsque l'utilisateur appuie sur une touche du clavier
+     * @param e The associated keyboard event.
+    **/
     public void keyPressed(KeyEvent e) {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z) { //Ctrl + Z
             repaint(); //remet l'Ã©cran Ã  blanc
@@ -264,11 +273,12 @@ public class JDrawingFrame extends JFrame
     }
 
     @Override
+    /**
+     * S'exécute lorsque l'utilisateur lâche une touche du clavier
+     * @param e The associated keyboard event.
+    **/
     public void keyReleased(KeyEvent e) {
-        for (SimpleShape shape : shapeList.getAllShapes()) {
-            Graphics2D g2 = (Graphics2D) panel.getGraphics();
-            shape.draw(g2); //redessine les formes, sauf la derniÃ¨re qui a Ã©tÃ© effacÃ©e
-        }
+        refresh();
     }
     
 
@@ -300,28 +310,28 @@ public class JDrawingFrame extends JFrame
         
     }
 
+    /**
+     * Redessine les formes sur l'interface après un repaint()
+     * 
+    **/
     public void refresh(){
         Graphics2D g2 = (Graphics2D) panel.getGraphics();
         for (SimpleShape shape : shapeList.getAllShapes()) {
-            shape.draw(g2); //redessine les formes
-            System.out.println("euh ?");
+            shape.draw(g2);
         }
     }
 
     /**
-     * Implements method for the <tt>MouseListener</tt> interface to complete
+     * S'exécute lorsque l'utilisateur lâche la souris
      * shape dragging.
      * @param evt The associated mouse event.
     **/
     public void mouseReleased(MouseEvent evt)
     {
 
-        if (isDragging == true){
+        if (isDragging){
             isDragging = false;
-            System.out.println("yoooooooo");
             if (selectedShape != null) {
-                
-                System.out.println("HEY");
                 selectedShape.setX(evt.getX());
                 selectedShape.setY(evt.getY());
                 refresh();
@@ -337,15 +347,10 @@ public class JDrawingFrame extends JFrame
     **/
     public void mouseDragged(MouseEvent e)
     {
-        System.out.println("hep");
-        System.out.println(isDragging);
 
-        if (isDragging == false){
-            System.out.println("ALLO");
+        if (!isDragging){
             selectedShape = getSelectedShape(e.getX(), e.getY());
             repaint();
-            System.out.println("selectedShape");
-
         }
         isDragging = true;
     }

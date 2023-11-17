@@ -24,7 +24,6 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
-import fr.persistence.Visitable;
 import fr.persistence.Visitor;
 
 /**
@@ -33,11 +32,8 @@ import fr.persistence.Visitor;
  *
  * @author <a href="mailto:christophe.saint-marcel@univ-grenoble-alpes.fr">Christophe</a>
  */
-public class Square implements SimpleShape, Visitable, Element {
+public class Square extends AbstractShape {
 
-    int x;
-
-    int y;
 
     public Square(int x, int y) {
         this.x = x - 25;
@@ -74,32 +70,4 @@ public class Square implements SimpleShape, Visitable, Element {
     }
 
 
-    /**
-    * Obtient la coordonnée x du carré.
-    *
-    * @return La coordonnée x du carré.
-    */
-    @Override
-    public int getX() {
-        return x;
-    }
-
-
-    /**
-    * Obtient la coordonnée y du carré.
-    *
-    * @return La coordonnée y du carré.
-    */
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 }

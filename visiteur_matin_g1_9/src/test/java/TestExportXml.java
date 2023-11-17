@@ -9,8 +9,8 @@ import fr.shapes.Circle;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
-public class TestExportXml {
-    /*
+class TestExportXml {
+/* 
     @Test
     void testCircleExportToXml() {
         JDrawingFrame drawingFrame = new JDrawingFrame("Test");
@@ -38,6 +38,6 @@ public class TestExportXml {
         assertTrue(xmlRepresentation.contains("<x>25</x>"));
         assertTrue(xmlRepresentation.contains("<y>35</y>"));
     }
-    */
     
+     */
 }

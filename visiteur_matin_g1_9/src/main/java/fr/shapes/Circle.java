@@ -24,14 +24,9 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
-import fr.persistence.Visitable;
 import fr.persistence.Visitor;
 
-public class Circle implements SimpleShape, Visitable, Element {
-
-    int x;
-
-    int y;
+public class Circle extends AbstractShape {
 
     public Circle(int x, int y) {
         this.x = x - 25;
@@ -67,29 +62,4 @@ public class Circle implements SimpleShape, Visitable, Element {
         visitor.visit(this);
     }
 
-    /**
-     * Obtient la coordonnée x de l'objet Circle.
-     *
-     * @return La coordonnée x de l'objet Circle.
-    */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Obtient la coordonnée y de l'objet Circle.
-     *
-     * @return La coordonnée y de l'objet Circle.
-    */
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 }

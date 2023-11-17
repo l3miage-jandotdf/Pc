@@ -7,12 +7,11 @@ import fr.shapes.Triangle;
 /**
  * @author &lt;a href=&quot;mailto:christophe.saint-marcel@univ-grenoble-alpes.fr&quot;&gt;Christophe&lt;/a&gt;
  */
-public class JSonVisitor implements Visitor {
+<span class="nc" id="L10">public class JSonVisitor implements Visitor {</span>
 
 <span class="nc" id="L12">    private String representation = null;</span>
-
-<span class="nc" id="L14">    public JSonVisitor() {</span>
-<span class="nc" id="L15">    }</span>
+    public static final String JSON_X = &quot;\&quot;x\&quot;: &quot;; // crÃ©Ã© car Sonar rÃ¢lait, je trouve Ã§a un peu illisible...
+    public static final String JSON_Y = &quot;\&quot;y\&quot;: &quot;;
 
 
     /**
@@ -23,15 +22,15 @@ public class JSonVisitor implements Visitor {
     @Override
     public void visit(Circle circle) {
         // Json representation for circle
-<span class="nc" id="L26">        StringBuilder jsonBuilder = new StringBuilder();</span>
-<span class="nc" id="L27">        jsonBuilder.append(&quot;{&quot;);</span>
-<span class="nc" id="L28">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;circle\&quot;,&quot;);</span>
-<span class="nc" id="L29">        jsonBuilder.append(&quot;\&quot;x\&quot;: &quot;).append(circle.getX()).append(&quot;,&quot;);</span>
-<span class="nc" id="L30">        jsonBuilder.append(&quot;\&quot;y\&quot;: &quot;).append(circle.getY());</span>
-<span class="nc" id="L31">        jsonBuilder.append(&quot;}&quot;);</span>
+<span class="nc" id="L25">        StringBuilder jsonBuilder = new StringBuilder();</span>
+<span class="nc" id="L26">        jsonBuilder.append(&quot;{&quot;);</span>
+<span class="nc" id="L27">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;circle\&quot;,&quot;);</span>
+<span class="nc" id="L28">        jsonBuilder.append(JSON_X).append(circle.getX()).append(&quot;,&quot;);</span>
+<span class="nc" id="L29">        jsonBuilder.append(JSON_Y).append(circle.getY()).append(&quot;,&quot;);</span>
+<span class="nc" id="L30">        jsonBuilder.append(&quot;}&quot;);</span>
         
-<span class="nc" id="L33">        representation = jsonBuilder.toString();</span>
-<span class="nc" id="L34">    }</span>
+<span class="nc" id="L32">        representation = jsonBuilder.toString();</span>
+<span class="nc" id="L33">    }</span>
 
     /**
      * Visite un objet de type Square et gÃ©nÃ¨re une reprÃ©sentation JSON.
@@ -41,15 +40,15 @@ public class JSonVisitor implements Visitor {
     @Override
     public void visit(Square square) {
         // Json representation for square
-<span class="nc" id="L44">        StringBuilder jsonBuilder = new StringBuilder();</span>
-<span class="nc" id="L45">        jsonBuilder.append(&quot;{&quot;);</span>
-<span class="nc" id="L46">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;square\&quot;,&quot;);</span>
-<span class="nc" id="L47">        jsonBuilder.append(&quot;\&quot;x\&quot;: &quot;).append(square.getX()).append(&quot;,&quot;);</span>
-<span class="nc" id="L48">        jsonBuilder.append(&quot;\&quot;y\&quot;: &quot;).append(square.getY());</span>
-<span class="nc" id="L49">        jsonBuilder.append(&quot;}&quot;);</span>
+<span class="nc" id="L43">        StringBuilder jsonBuilder = new StringBuilder();</span>
+<span class="nc" id="L44">        jsonBuilder.append(&quot;{&quot;);</span>
+<span class="nc" id="L45">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;square\&quot;,&quot;);</span>
+<span class="nc" id="L46">        jsonBuilder.append(JSON_X).append(square.getX()).append(&quot;,&quot;);</span>
+<span class="nc" id="L47">        jsonBuilder.append(JSON_Y).append(square.getY()).append(&quot;,&quot;);</span>
+<span class="nc" id="L48">        jsonBuilder.append(&quot;}&quot;);</span>
 
-<span class="nc" id="L51">        representation = jsonBuilder.toString();</span>
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L50">        representation = jsonBuilder.toString();</span>
+<span class="nc" id="L51">    }</span>
 
      /**
      * Visite un objet de type Triangle et gÃ©nÃ¨re une reprÃ©sentation JSON.
@@ -59,15 +58,15 @@ public class JSonVisitor implements Visitor {
     @Override
     public void visit(Triangle triangle) {
         // Json representation for triangle
-<span class="nc" id="L62">        StringBuilder jsonBuilder = new StringBuilder();</span>
-<span class="nc" id="L63">        jsonBuilder.append(&quot;{&quot;);</span>
-<span class="nc" id="L64">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;triangle\&quot;,&quot;);</span>
-<span class="nc" id="L65">        jsonBuilder.append(&quot;\&quot;x\&quot;: &quot;).append(triangle.getX()).append(&quot;,&quot;);</span>
-<span class="nc" id="L66">        jsonBuilder.append(&quot;\&quot;y\&quot;: &quot;).append(triangle.getY());</span>
-<span class="nc" id="L67">        jsonBuilder.append(&quot;}&quot;);</span>
+<span class="nc" id="L61">        StringBuilder jsonBuilder = new StringBuilder();</span>
+<span class="nc" id="L62">        jsonBuilder.append(&quot;{&quot;);</span>
+<span class="nc" id="L63">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;triangle\&quot;,&quot;);</span>
+<span class="nc" id="L64">        jsonBuilder.append(JSON_X).append(triangle.getX()).append(&quot;,&quot;);</span>
+<span class="nc" id="L65">        jsonBuilder.append(JSON_Y).append(triangle.getY()).append(&quot;,&quot;);</span>
+<span class="nc" id="L66">        jsonBuilder.append(&quot;}&quot;);</span>
         
-<span class="nc" id="L69">        representation = jsonBuilder.toString();</span>
-<span class="nc" id="L70">    }</span>
+<span class="nc" id="L68">        representation = jsonBuilder.toString();</span>
+<span class="nc" id="L69">    }</span>
 
     /**
      * @return the representation in JSon example for a Circle
@@ -85,7 +84,7 @@ public class JSonVisitor implements Visitor {
      *         &lt;/pre&gt;
      */
     public String getRepresentation() {
-<span class="nc" id="L88">        return representation;</span>
+<span class="nc" id="L87">        return representation;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

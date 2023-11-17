@@ -24,8 +24,8 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
-import fr.persistence.Visitable;
 import fr.persistence.Visitor;
+import java.awt.geom.Path2D;
 
 /**
  * This inner class implements the triangle &lt;tt&gt;SimpleShape&lt;/tt&gt; service.
@@ -33,43 +33,40 @@ import fr.persistence.Visitor;
  *
  * @author &lt;a href=&quot;mailto:christophe.saint-marcel@univ-grenoble-alpes.fr&quot;&gt;Christophe&lt;/a&gt;
  */
-public class Triangle implements SimpleShape, Visitable, Element {
+public class Triangle extends AbstractShape {
 
-    int x;
 
-    int y;
-
-<span class="fc" id="L42">    public Triangle(int x, int y) {</span>
-<span class="fc" id="L43">        this.x = x - 25;</span>
-<span class="fc" id="L44">        this.y = y - 25;</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L39">    public Triangle(int x, int y) {</span>
+<span class="fc" id="L40">        this.x = x - 25;</span>
+<span class="fc" id="L41">        this.y = y - 25;</span>
+<span class="fc" id="L42">    }</span>
 
     /**
      * ImplÃ©mente la mÃ©thode &lt;tt&gt;SimpleShape.draw()&lt;/tt&gt; pour dessiner
      * la forme.
      * @param g2 L'objet graphique utilisÃ© pour le dessin.
     */
+    @Override
     public void draw(Graphics2D g2) {
-<span class="nc" id="L53">        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);</span>
-<span class="nc" id="L54">        GradientPaint gradient = new GradientPaint(x, y, Color.GREEN, x + (float)50, y, Color.WHITE);</span>
-<span class="nc" id="L55">        g2.setPaint(gradient);</span>
-<span class="nc" id="L56">        int[] xcoords = { x + 25, x, x + 50 };</span>
-<span class="nc" id="L57">        int[] ycoords = { y, y + 50, y + 50 };</span>
-<span class="nc" id="L58">        GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD, xcoords.length);</span>
-<span class="nc" id="L59">        polygon.moveTo(x + (float)25, y);</span>
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        for (int i = 0; i &lt; xcoords.length; i++) {</span>
-<span class="nc" id="L61">            polygon.lineTo(xcoords[i], ycoords[i]);</span>
+<span class="nc" id="L51">        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);</span>
+<span class="nc" id="L52">        GradientPaint gradient = new GradientPaint(x, y, Color.GREEN, x + (float)50, y, Color.WHITE);</span>
+<span class="nc" id="L53">        g2.setPaint(gradient);</span>
+<span class="nc" id="L54">        int[] xcoords = { x + 25, x, x + 50 };</span>
+<span class="nc" id="L55">        int[] ycoords = { y, y + 50, y + 50 };</span>
+<span class="nc" id="L56">        GeneralPath polygon = new GeneralPath(Path2D.WIND_EVEN_ODD, xcoords.length);</span>
+<span class="nc" id="L57">        polygon.moveTo(x + (float)25, y);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        for (int i = 0; i &lt; xcoords.length; i++) {</span>
+<span class="nc" id="L59">            polygon.lineTo(xcoords[i], ycoords[i]);</span>
         }
-<span class="nc" id="L63">        polygon.closePath();</span>
-<span class="nc" id="L64">        g2.fill(polygon);</span>
-<span class="nc" id="L65">        BasicStroke wideStroke = new BasicStroke(2.0f);</span>
-<span class="nc" id="L66">        g2.setColor(Color.black);</span>
-<span class="nc" id="L67">        g2.setStroke(wideStroke);</span>
-<span class="nc" id="L68">        g2.draw(polygon);</span>
-<span class="nc" id="L69">    }</span>
+<span class="nc" id="L61">        polygon.closePath();</span>
+<span class="nc" id="L62">        g2.fill(polygon);</span>
+<span class="nc" id="L63">        BasicStroke wideStroke = new BasicStroke(2.0f);</span>
+<span class="nc" id="L64">        g2.setColor(Color.black);</span>
+<span class="nc" id="L65">        g2.setStroke(wideStroke);</span>
+<span class="nc" id="L66">        g2.draw(polygon);</span>
+<span class="nc" id="L67">    }</span>
 
-
-    /**
+     /**
     * Accepte un visiteur pour cet objet Triangle.
     * Cette mÃ©thode est utilisÃ©e pour permettre aux visiteurs externes d'interagir avec l'objet Triangle
     * et d'effectuer des opÃ©rations spÃ©cifiques sur celui-ci.
@@ -78,27 +75,8 @@ public class Triangle implements SimpleShape, Visitable, Element {
     */
     @Override
     public void accept(Visitor visitor) {
-<span class="nc" id="L81">        visitor.visit(this);</span>
-<span class="nc" id="L82">    }</span>
+<span class="nc" id="L78">        visitor.visit(this);</span>
+<span class="nc" id="L79">    }</span>
 
-    /**
-     * Obtient la coordonnÃ©e x de l'objet Triangle.
-     *
-     * @return La coordonnÃ©e x de l'objet Triangle.
-    */
-    @Override
-    public int getX() {
-<span class="fc" id="L91">        return x;</span>
-    }
-
-    /**
-     * Obtient la coordonnÃ©e y de l'objet Triangle.
-     *
-     * @return La coordonnÃ©e y de l'objet Triangle.
-    */
-    @Override
-    public int getY() {
-<span class="fc" id="L101">        return y;</span>
-    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

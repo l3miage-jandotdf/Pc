@@ -24,8 +24,8 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
-import fr.persistence.Visitable;
 import fr.persistence.Visitor;
+import java.awt.geom.Path2D;
 
 /**
  * This inner class implements the triangle <tt>SimpleShape</tt> service.
@@ -33,11 +33,8 @@ import fr.persistence.Visitor;
  *
  * @author <a href="mailto:christophe.saint-marcel@univ-grenoble-alpes.fr">Christophe</a>
  */
-public class Triangle implements SimpleShape, Visitable, Element {
+public class Triangle extends AbstractShape {
 
-    int x;
-
-    int y;
 
     public Triangle(int x, int y) {
         this.x = x - 25;
@@ -49,13 +46,14 @@ public class Triangle implements SimpleShape, Visitable, Element {
      * la forme.
      * @param g2 L'objet graphique utilisé pour le dessin.
     */
+    @Override
     public void draw(Graphics2D g2) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         GradientPaint gradient = new GradientPaint(x, y, Color.GREEN, x + (float)50, y, Color.WHITE);
         g2.setPaint(gradient);
         int[] xcoords = { x + 25, x, x + 50 };
         int[] ycoords = { y, y + 50, y + 50 };
-        GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD, xcoords.length);
+        GeneralPath polygon = new GeneralPath(Path2D.WIND_EVEN_ODD, xcoords.length);
         polygon.moveTo(x + (float)25, y);
         for (int i = 0; i < xcoords.length; i++) {
             polygon.lineTo(xcoords[i], ycoords[i]);
@@ -68,8 +66,7 @@ public class Triangle implements SimpleShape, Visitable, Element {
         g2.draw(polygon);
     }
 
-
-    /**
+     /**
     * Accepte un visiteur pour cet objet Triangle.
     * Cette méthode est utilisée pour permettre aux visiteurs externes d'interagir avec l'objet Triangle
     * et d'effectuer des opérations spécifiques sur celui-ci.
@@ -81,31 +78,4 @@ public class Triangle implements SimpleShape, Visitable, Element {
         visitor.visit(this);
     }
 
-    /**
-     * Obtient la coordonnée x de l'objet Triangle.
-     *
-     * @return La coordonnée x de l'objet Triangle.
-    */
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Obtient la coordonnée y de l'objet Triangle.
-     *
-     * @return La coordonnée y de l'objet Triangle.
-    */
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 }

@@ -10,9 +10,8 @@ import fr.shapes.Triangle;
 public class JSonVisitor implements Visitor {
 
     private String representation = null;
-
-    public JSonVisitor() {
-    }
+    public static final String JSON_X = "\"x\": "; // créé car Sonar râlait, je trouve ça un peu illisible...
+    public static final String JSON_Y = "\"y\": ";
 
 
     /**
@@ -26,8 +25,8 @@ public class JSonVisitor implements Visitor {
         StringBuilder jsonBuilder = new StringBuilder();
         jsonBuilder.append("{");
         jsonBuilder.append("\"type\": \"circle\",");
-        jsonBuilder.append("\"x\": ").append(circle.getX()).append(",");
-        jsonBuilder.append("\"y\": ").append(circle.getY());
+        jsonBuilder.append(JSON_X).append(circle.getX()).append(",");
+        jsonBuilder.append(JSON_Y).append(circle.getY()).append(",");
         jsonBuilder.append("}");
         
         representation = jsonBuilder.toString();
@@ -44,8 +43,8 @@ public class JSonVisitor implements Visitor {
         StringBuilder jsonBuilder = new StringBuilder();
         jsonBuilder.append("{");
         jsonBuilder.append("\"type\": \"square\",");
-        jsonBuilder.append("\"x\": ").append(square.getX()).append(",");
-        jsonBuilder.append("\"y\": ").append(square.getY());
+        jsonBuilder.append(JSON_X).append(square.getX()).append(",");
+        jsonBuilder.append(JSON_Y).append(square.getY()).append(",");
         jsonBuilder.append("}");
 
         representation = jsonBuilder.toString();
@@ -62,8 +61,8 @@ public class JSonVisitor implements Visitor {
         StringBuilder jsonBuilder = new StringBuilder();
         jsonBuilder.append("{");
         jsonBuilder.append("\"type\": \"triangle\",");
-        jsonBuilder.append("\"x\": ").append(triangle.getX()).append(",");
-        jsonBuilder.append("\"y\": ").append(triangle.getY());
+        jsonBuilder.append(JSON_X).append(triangle.getX()).append(",");
+        jsonBuilder.append(JSON_Y).append(triangle.getY()).append(",");
         jsonBuilder.append("}");
         
         representation = jsonBuilder.toString();

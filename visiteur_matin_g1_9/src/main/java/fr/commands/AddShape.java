@@ -27,12 +27,4 @@ public class AddShape implements Command {
         shape.draw(g2);
     }
 
-
-    /**
-     * Annule la commande en supprimant la forme de la liste de formes.
-    */
-    @Override
-    public void goBack() {
-        shapeList.removeShape(shape);
-    }
 }

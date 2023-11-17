@@ -22,10 +22,4 @@ public class RemoveShape implements Command {
         shapeList.removeLastShape();
     }
 
-    /**
-     * Annule la commande
-    */
-    @Override
-    public void goBack() {
-    }
 }
