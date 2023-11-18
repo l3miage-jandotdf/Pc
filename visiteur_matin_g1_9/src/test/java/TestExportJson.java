@@ -9,7 +9,7 @@ import fr.shapes.Circle;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
-public class TestExportJson {
+class TestExportJson {
     /* 
     @Test
     void testCircleExportToJson() {

@@ -35,11 +35,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,6 +47,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 import fr.commands.AddShape;
 import fr.commands.RemoveShape;
@@ -74,23 +74,25 @@ import java.awt.event.KeyListener;
 public class JDrawingFrame extends JFrame
     implements MouseListener, MouseMotionListener, KeyListener
 {
-	private enum Shapes {SQUARE, TRIANGLE, CIRCLE};
+	private enum Shapes {SQUARE, TRIANGLE, CIRCLE}
     private static final long serialVersionUID = 1L;
     private JToolBar toolbar;
     private Shapes selected;
     private JPanel panel;
     private JLabel label;
-    private ActionListener reusableActionListener = new ShapeActionListener();
-    private List<Element> elements = new ArrayList<>();
+    private transient ActionListener reusableActionListener = new ShapeActionListener();
+    private transient List<Element> elements = new ArrayList<>();
     private boolean isDragging = false;
-    private SimpleShape selectedShape;
+    private transient SimpleShape selectedShape;
+    private static final Logger log = Logger.getLogger(JDrawingFrame.class.getName());
 
-    private ShapesList shapeList = new ShapesList();
+
+    private transient ShapesList shapeList = new ShapesList();
 
     /**
      * Tracks buttons to manage the background.
      */
-    private Map<Shapes, JButton> buttons = new HashMap<>();
+    private EnumMap<Shapes, JButton> buttons = new EnumMap<>(Shapes.class);
 
     /**
      * Default constructor that populates the main window.
@@ -110,7 +112,7 @@ public class JDrawingFrame extends JFrame
         this.setFocusable(true);
         this.requestFocusInWindow();
         panel.addMouseMotionListener(this);
-        label = new JLabel(" ", JLabel.LEFT);
+        label = new JLabel(" ", SwingConstants.LEFT);
         
         // Fills the panel
         setLayout(new BorderLayout());
@@ -129,26 +131,10 @@ public class JDrawingFrame extends JFrame
         JButton exportButtonXML = new JButton("XML");
         JButton exportButtonJSON = new JButton("JSON");
 
-        selectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selected = null;
-            }
-        }); 
+        selectButton.addActionListener(e -> selected = null); 
+        exportButtonXML.addActionListener(e -> exportShapes(false));
+        exportButtonJSON.addActionListener(e -> exportShapes(true));
 
-        exportButtonXML.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                exportShapes(false); 
-            }
-        });        
-
-        exportButtonJSON.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                exportShapes(true); 
-            }
-        });
 
         toolbar.add(selectButton);
         toolbar.add(exportButtonXML);
@@ -268,10 +254,7 @@ public class JDrawingFrame extends JFrame
 
         }
     }
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
+   
     @Override
     /**
      * S'exécute lorsque l'utilisateur lâche une touche du clavier
@@ -286,29 +269,12 @@ public class JDrawingFrame extends JFrame
      * Implements an empty method for the <tt>MouseListener</tt> interface.
      * @param evt The associated mouse event.
     **/
-    public void mouseEntered(MouseEvent evt)
-    {
-    	
-    }
-
-    /**
-     * Implements an empty method for the <tt>MouseListener</tt> interface.
-     * @param evt The associated mouse event.
-    **/
     public void mouseExited(MouseEvent evt)
     {
     	label.setText(" ");
     	label.repaint();
     }
 
-    /**
-     * Implements method for the <tt>MouseListener</tt> interface to initiate
-     * shape dragging.
-     * @param evt The associated mouse event.
-    **/
-    public void mousePressed(MouseEvent e) {
-        
-    }
 
     /**
      * Redessine les formes sur l'interface après un repaint()
@@ -395,7 +361,7 @@ public class JDrawingFrame extends JFrame
     }
 
 
-    /** Écris le contenu du dessin dans un fichier (.json ou .xml)
+    /** Écrit le contenu du dessin dans un fichier (.json ou .xml)
      * @param isJSON true si l'on veut un json, false pour un xml
      * @return selectedFile le fichier créé
      */
@@ -403,48 +369,73 @@ public class JDrawingFrame extends JFrame
         Visitor visitor = isJSON ? new JSonVisitor() : new XMLVisitor();
         String extension = isJSON ? "json" : "xml";
     
-        JFileChooser fileChooser = new JFileChooser();
+        File selectedFile = getSelectedFileWithExtension(extension);
+        if (selectedFile == null) {
+            return null;
+        }
     
-        // Asks the user where they want to save the file
-        int result = fileChooser.showSaveDialog(this); // "this" is the main window
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile))) {
+            writeShapesToFile(writer, isJSON, visitor);
+        } catch (IOException e) {
+            log.severe("Une erreur s'est produite lors de l'exportation des formes : " + e.getMessage());
+        }
+        return selectedFile;
+    }
+    
+    /**
+     * Récupère le fichier sélectionné avec l'extension spécifiée.
+     *
+     * @param extension L'extension de fichier à utiliser (json ou xml)
+     * @return le fichier sélectionné avec l'extension appropriée ou null si aucune sélection n'a été faite
+     */
+    private File getSelectedFileWithExtension(String extension) {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
     
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-    
-            // Check that the file has the correct extension
             String filePath = selectedFile.getAbsolutePath();
+    
             if (!filePath.endsWith("." + extension)) {
                 filePath += "." + extension;
                 selectedFile = new File(filePath);
-            }
-    
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile))) {
-                writer.write(isJSON ? "{" : "");
-                writer.newLine();
-                writer.write(isJSON ? "  \"shapes\": [" : "");
-                writer.newLine();
-                boolean firstShape = true;
-                for (Element element : elements) {
-                    element.accept(visitor);
-                    String representation = visitor.getRepresentation();
-                    if (!firstShape) {
-                        writer.write(isJSON ? "," : "");
-                        writer.newLine();
-                    }
-                    writer.write(representation);
-                    firstShape = false;
-                }
-                writer.newLine();
-                writer.write(isJSON ? "  ]" : "");
-                writer.newLine();
-                writer.write(isJSON ? "}" : "");
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             return selectedFile;
         }
         return null;
     }
+
+
+    /**
+     * Écrit les formes dans le fichier donné en utilisant le writer spécifié.
+     *
+     * @param writer   Le BufferedWriter pour écrire dans le fichier
+     * @param isJSON   true si le fichier doit être au format JSON, false pour le format XML
+     * @param visitor  Le visiteur utilisé pour obtenir la représentation des formes
+     * @throws IOException si une erreur survient lors de l'écriture dans le fichier
+     */
+    private void writeShapesToFile(BufferedWriter writer, boolean isJSON, Visitor visitor) throws IOException {
+        if (isJSON) {
+            writer.write("{\n  \"shapes\": [\n");
+        }
+    
+        boolean firstShape = true;
+        for (Element element : elements) {
+            element.accept(visitor);
+            String representation = visitor.getRepresentation();
+    
+            if (!firstShape) {
+                writer.write(isJSON ? ",\n" : "\n");
+            }
+            writer.write(representation);
+            firstShape = false;
+        }
+    
+        if (isJSON) {
+            writer.write("\n  ]\n}");
+        }
+    }
+    
 
     /** Lit le fichier créé --> Sert pour le test <--
      * @param file fichier json ou xml
@@ -459,7 +450,6 @@ public class JDrawingFrame extends JFrame
             }
             return content.toString();
         } catch (IOException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -478,6 +468,24 @@ public class JDrawingFrame extends JFrame
     }
     public List<Element> getElements() {
         return elements;
+    }
+
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //Est vide car doit être implémentée à cause de l'interface, mais est non utilisée 
+    }
+
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+       //Est vide car doit être implémentée à cause de l'interface, mais est non utilisée 
+    }
+
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //Est vide car doit être implémentée à cause de l'interface, mais est non utilisée 
     }
     
 
