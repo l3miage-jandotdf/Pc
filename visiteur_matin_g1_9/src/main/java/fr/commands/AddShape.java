@@ -2,7 +2,6 @@ package fr.commands;
 
 import fr.shapes.SimpleShape;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import fr.shapes.ShapesList; // Suppose que vous avez une classe ShapeList pour stocker les formes
@@ -24,17 +23,8 @@ public class AddShape implements Command {
     */
     @Override
     public void execute(Graphics2D g2) {
-
-        if (shapeList.isGroupMode() && shapeList.getCurrentGroup() != null) {
-            g2.setColor(Color.YELLOW); // Définissez la couleur du contour sur jaune pour les formes de groupe
-        }
-
         shapeList.addShape(shape);
         shape.draw(g2);
-
-        if (shapeList.isGroupMode() && shapeList.getCurrentGroup() != null) {
-            g2.setColor(Color.BLACK); // Rétablissez la couleur du contour à sa valeur par défaut après avoir dessiné la forme
-        }
     }
 
 }

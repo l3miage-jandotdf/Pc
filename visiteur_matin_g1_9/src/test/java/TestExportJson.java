@@ -1,42 +1,76 @@
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
-import java.io.File;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import fr.JDrawingFrame;
+import fr.persistence.JSonVisitor;
 import fr.shapes.Circle;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
 class TestExportJson {
-    /* 
+    @Mock
+    Circle circle;
+
+    @Mock
+    Square square;
+
+    @Mock
+    Triangle triangle;
+
+    private JSonVisitor jSonVisitor;
+
+     @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        jSonVisitor = new JSonVisitor();
+    }
+
+ 
     @Test
     void testCircleExportToJson() {
-        JDrawingFrame drawingFrame = new JDrawingFrame("Test");
 
-        Circle circle = new Circle(100, 100);
-        Square square = new Square(25, 25);
-        Triangle triangle = new Triangle(50,60);
-        drawingFrame.addShape(circle);
-        drawingFrame.addShape(square);
-        drawingFrame.addShape(triangle);
+        assertNotNull(circle);
 
+        when(circle.getX()).thenReturn(10);
+        when(circle.getY()).thenReturn(12);
 
-        // Exporte la scène au format JSON
-        File file = drawingFrame.exportShapes(true);
+        jSonVisitor.visit(circle);
 
-        // Vérifie si le JSON exporté contient les informations des formes
-        String jsonRepresentation = drawingFrame.readFileContent(file);
-        assertTrue(jsonRepresentation.contains("\"type\": \"circle\""));
-        assertTrue(jsonRepresentation.contains("\"x\": 75"));
-        assertTrue(jsonRepresentation.contains("\"y\": 75"));
-        assertTrue(jsonRepresentation.contains("\"type\": \"square\""));
-        assertTrue(jsonRepresentation.contains("\"x\": 0"));
-        assertTrue(jsonRepresentation.contains("\"y\": 0"));
-        assertTrue(jsonRepresentation.contains("\"type\": \"triangle\""));
-        assertTrue(jsonRepresentation.contains("\"x\": 25"));
-        assertTrue(jsonRepresentation.contains("\"y\": 35"));
+        // Vérifiez que la représentation JSON générée est correcte
+        assertEquals("{\"type\": \"circle\",\"x\": 10,\"y\": 12,}", jSonVisitor.getRepresentation());
     }
-    */
+
+
+    @Test
+    void testSquareExportToJson() {
+
+        assertNotNull(square);
+
+        when(square.getX()).thenReturn(20);
+        when(square.getY()).thenReturn(-15);
+
+        jSonVisitor.visit(square);
+
+        // Vérifiez que la représentation JSON générée est correcte
+        assertEquals("{\"type\": \"square\",\"x\": 20,\"y\": -15,}", jSonVisitor.getRepresentation());
+    }
+
+    @Test
+    void testTriangleExportToJson() {
+
+        assertNotNull(triangle);
+
+        when(triangle.getX()).thenReturn(30);
+        when(triangle.getY()).thenReturn(30);
+
+        jSonVisitor.visit(triangle);
+
+        // Vérifiez que la représentation JSON générée est correcte
+        assertEquals("{\"type\": \"triangle\",\"x\": 30,\"y\": 30,}", jSonVisitor.getRepresentation());
+    }
 }

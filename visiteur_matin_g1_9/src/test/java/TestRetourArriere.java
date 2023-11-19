@@ -1,35 +1,26 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.awt.event.KeyEvent;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.awt.Graphics2D;
+
 
 import org.junit.jupiter.api.Test;
 
-import fr.JDrawingFrame;
-import fr.shapes.Circle;
-import fr.shapes.Square;
+import fr.commands.RemoveShape;
+import fr.shapes.ShapesList;
+
 
 class TestRetourArriere {
-    /*
+    
     @Test
-    void testRetourArriere() {
-        JDrawingFrame drawingFrame = new JDrawingFrame("Test");
+    void testExecute() {
 
-        Circle circle = new Circle(100, 100);
-        drawingFrame.addShape(circle);
-        Square square = new Square(50, 50);
-        drawingFrame.addShape(square);
+        ShapesList shapesListMock = mock(ShapesList.class);
+        RemoveShape removeShape = new RemoveShape(shapesListMock);
 
-        //simule un ctrl + Z
-        KeyEvent keyEventCtrl = new KeyEvent(drawingFrame, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), KeyEvent.CTRL_DOWN_MASK, KeyEvent.VK_CONTROL, '\0');
-        drawingFrame.keyPressed(keyEventCtrl);
-
-        KeyEvent keyEventZ = new KeyEvent(drawingFrame, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), KeyEvent.CTRL_DOWN_MASK, KeyEvent.VK_Z, 'Z');
-        drawingFrame.keyPressed(keyEventZ);
-
-        
-        int nbElements = drawingFrame.getShapeList().getAllShapes().size();
-        // Compare la taille
-        assertEquals(1, nbElements);
+        Graphics2D mockGraphics = mock(Graphics2D.class);
+        removeShape.execute(mockGraphics);
+        verify(shapesListMock).removeLastShape();
     }
-    */
 }
