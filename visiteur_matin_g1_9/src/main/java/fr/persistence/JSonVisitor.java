@@ -1,6 +1,7 @@
 package fr.persistence;
 
 import fr.shapes.Circle;
+import fr.shapes.ShapeGroup;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
@@ -63,6 +64,22 @@ public class JSonVisitor implements Visitor {
         jsonBuilder.append("\"type\": \"triangle\",");
         jsonBuilder.append(JSON_X).append(triangle.getX()).append(",");
         jsonBuilder.append(JSON_Y).append(triangle.getY()).append(",");
+        jsonBuilder.append("}");
+        
+        representation = jsonBuilder.toString();
+    }
+
+    /**
+     * Visite un objet de type ShapeGroup et génère une représentation JSON.
+     *
+     * @param triangle L'objet ShapeGroup à visiter.
+    */
+     @Override
+    public void visit(ShapeGroup shapeGroup) {
+        // Json representation for a group
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{");
+        jsonBuilder.append("\"type\": \"shapeGroup\",");
         jsonBuilder.append("}");
         
         representation = jsonBuilder.toString();

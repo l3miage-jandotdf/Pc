@@ -56,6 +56,7 @@ import fr.persistence.Visitor;
 import fr.persistence.XMLVisitor;
 import fr.shapes.Circle;
 import fr.shapes.Element;
+import fr.shapes.ShapeGroup;
 import fr.shapes.ShapesList;
 import fr.shapes.SimpleShape;
 import fr.shapes.Square;
@@ -78,11 +79,13 @@ public class JDrawingFrame extends JFrame
     private static final long serialVersionUID = 1L;
     private JToolBar toolbar;
     private Shapes selected;
+    private transient ShapeGroup currentGroup;
     private JPanel panel;
     private JLabel label;
     private transient ActionListener reusableActionListener = new ShapeActionListener();
     private transient List<Element> elements = new ArrayList<>();
     private boolean isDragging = false;
+    private boolean createGroupMode = false;
     private transient SimpleShape selectedShape;
     private static final Logger log = Logger.getLogger(JDrawingFrame.class.getName());
 
@@ -106,7 +109,7 @@ public class JDrawingFrame extends JFrame
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(null);
-        panel.setMinimumSize(new Dimension(400, 400));
+        panel.setMinimumSize(new Dimension(500, 500));
         panel.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -125,22 +128,31 @@ public class JDrawingFrame extends JFrame
         addShape(Shapes.TRIANGLE, new ImageIcon(getClass().getResource("images/triangle.png")));
         addShape(Shapes.CIRCLE, new ImageIcon(getClass().getResource("images/circle.png")));
 
-        setPreferredSize(new Dimension(400, 400));
+        setPreferredSize(new Dimension(500, 500));
 
         JButton selectButton = new JButton("Select");
+        JButton createGroupButton = new JButton("Create a group");
         JButton exportButtonXML = new JButton("XML");
         JButton exportButtonJSON = new JButton("JSON");
 
-        selectButton.addActionListener(e -> selected = null); 
+        selectButton.addActionListener(e -> selected = null);
+        createGroupButton.addActionListener(e -> {
+            createGroupMode = !createGroupMode;
+            selected = null;
+            if (createGroupMode) {
+                createGroupButton.setBorderPainted(true);
+            } else {
+                createGroupButton.setBorderPainted(false);
+            }
+        });
         exportButtonXML.addActionListener(e -> exportShapes(false));
         exportButtonJSON.addActionListener(e -> exportShapes(true));
 
 
         toolbar.add(selectButton);
+        toolbar.add(createGroupButton);
         toolbar.add(exportButtonXML);
         toolbar.add(exportButtonJSON);
-        
-
     }
 
 
@@ -231,6 +243,19 @@ public class JDrawingFrame extends JFrame
 
                 }
             }
+
+            if (createGroupMode) {
+                // Créez un groupe s'il n'y en a pas déjà un en cours
+                if (currentGroup == null) {
+                    currentGroup = new ShapeGroup();
+                    elements.add(currentGroup);
+                }
+                if (selected == Shapes.CIRCLE || selected == Shapes.TRIANGLE || selected == Shapes.SQUARE) {
+                    SimpleShape shape = createShape(selected, evt.getX(), evt.getY());
+                    currentGroup.addShape(shape);
+                }
+
+            }
         }
         this.requestFocusInWindow(); //reprend le focus sur le clavier
 
@@ -286,13 +311,14 @@ public class JDrawingFrame extends JFrame
             shape.draw(g2);
         }
     }
+    
 
     /**
      * S'exécute lorsque l'utilisateur lâche la souris
      * shape dragging.
      * @param evt The associated mouse event.
     **/
-    public void mouseReleased(MouseEvent evt)
+     public void mouseReleased(MouseEvent evt)
     {
 
         if (isDragging){
@@ -305,6 +331,8 @@ public class JDrawingFrame extends JFrame
 
         }
     }
+
+
 
     /**
      * Implements method for the <tt>MouseMotionListener</tt> interface to
@@ -320,6 +348,21 @@ public class JDrawingFrame extends JFrame
         }
         isDragging = true;
     }
+
+
+    private SimpleShape createShape(Shapes shapeType, int x, int y) {
+        switch (shapeType) {
+            case CIRCLE:
+                return new Circle(x, y);
+            case TRIANGLE:
+                return new Triangle(x, y);
+            case SQUARE:
+                return new Square(x, y);
+            default:
+                return null;
+        }
+    }
+    
 
     /**
      * Implements an empty method for the <tt>MouseMotionListener</tt>
@@ -487,11 +530,4 @@ public class JDrawingFrame extends JFrame
     public void mouseEntered(MouseEvent e) {
         //Est vide car doit être implémentée à cause de l'interface, mais est non utilisée 
     }
-    
-
-
-
-   
-
-
 }

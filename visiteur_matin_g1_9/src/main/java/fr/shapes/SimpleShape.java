@@ -2,6 +2,7 @@ package fr.shapes;
 
 import java.awt.Graphics2D;
 
+
 /**
  * This interface defines the <tt>SimpleShape</tt> extension. This extension
  * is used to draw shapes.
@@ -23,4 +24,5 @@ public interface SimpleShape {
     void setX(int x);
 
     void setY(int y);
+
 }
