@@ -20,7 +20,8 @@ import static org.mockito.Mockito.verify;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.any;
+
 
 class TestSquare {
 
@@ -59,10 +60,10 @@ class TestSquare {
         square.draw(mockGraphics);
 
         verify(mockGraphics).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        verify(mockGraphics).setPaint(isA(GradientPaint.class));
-        verify(mockGraphics).fill(isA(Rectangle2D.Double.class));
-        verify(mockGraphics).draw(isA(Rectangle2D.Double.class));
-        verify(mockGraphics).setStroke(isA(BasicStroke.class));
+        verify(mockGraphics).setPaint(any(GradientPaint.class));
+        verify(mockGraphics).fill(any(Rectangle2D.Double.class));
+        verify(mockGraphics).draw(any(Rectangle2D.Double.class));
+        verify(mockGraphics).setStroke(any(BasicStroke.class));
         verify(mockGraphics).setColor(Color.black);
     }
     

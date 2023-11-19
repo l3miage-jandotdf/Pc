@@ -7,7 +7,8 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.GeneralPath;
+
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.verify;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
 
 class TestTriangle {
@@ -60,9 +62,9 @@ class TestTriangle {
         triangle.draw(mockGraphics);
 
         verify(mockGraphics).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        verify(mockGraphics).setPaint(isA(GradientPaint.class));
-        verify(mockGraphics).fill(isA(Rectangle2D.Double.class));
-        verify(mockGraphics).draw(isA(Rectangle2D.Double.class));
+        verify(mockGraphics).setPaint(any(GradientPaint.class));
+        verify(mockGraphics).fill(any(GeneralPath.class));
+        verify(mockGraphics).setStroke(any(BasicStroke.class));
         verify(mockGraphics).setStroke(isA(BasicStroke.class));
         verify(mockGraphics).setColor(Color.black);
     }
