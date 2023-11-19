@@ -1,62 +1,69 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.File;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Rectangle2D;
+
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import fr.JDrawingFrame;
 import fr.shapes.Square;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.ArgumentMatchers.isA;
+
 class TestSquare {
+
+    @Mock
+    private Graphics2D mockGraphics;
+
+    private Square square;
+    private int x, y;
 
     @Test
     void testSquareCreation() {
         int expectedX = 100;
         int expectedY = 100;
 
-        Square square = new Square(expectedX, expectedY);
+        square = new Square(expectedX, expectedY);
 
         // Vérifie si le carré est correctement positionné
+        assertNotNull(square);
         assertEquals(expectedX-25, square.getX());
         assertEquals(expectedY-25, square.getY());
     }
 
-    /*
-    @Test
-    void testSquareExportToJson() {
-        JDrawingFrame drawingFrame = new JDrawingFrame("Test");
-
-        // Ajoute un carré à la scène
-        Square square = new Square(100, 100);
-        drawingFrame.addShape(square);
-
-        // Exporte la scène au format JSON
-        File file = drawingFrame.exportShapes(true);
-
-        // Vérifie si le JSON exporté contient les informations du carré
-        String jsonRepresentation = drawingFrame.readFileContent(file);
-        assertTrue(jsonRepresentation.contains("\"type\": \"square\""));
-        assertTrue(jsonRepresentation.contains("\"x\": 75"));
-        assertTrue(jsonRepresentation.contains("\"y\": 75"));
+    @BeforeEach
+    void setUp(){
+        square = new Square(x, y);
+        MockitoAnnotations.openMocks(this);
     }
 
+    @Test 
+    void drawSquareTest(){
 
-    @Test
-    void testSquareExportToXml() {
-        JDrawingFrame drawingFrame = new JDrawingFrame("Test");
+        Graphics2D mockGraphics = mock(Graphics2D.class);
 
-        // Ajoute un carré
-        Square square = new Square(100, 100);
-        drawingFrame.addShape(square); 
+        square = new Square(0, 0);
 
-        // Exporte la scène au format XML
-        File file = drawingFrame.exportShapes(false);
+        square.draw(mockGraphics);
 
-        // Vérifie si le XML exporté contient les informations du carré
-        String xmlRepresentation = drawingFrame.readFileContent(file);
-        assertTrue(xmlRepresentation.contains("<type>square</type>"));
-        assertTrue(xmlRepresentation.contains("<x>75</x>"));
-        assertTrue(xmlRepresentation.contains("<y>75</y>"));
+        verify(mockGraphics).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        verify(mockGraphics).setPaint(isA(GradientPaint.class));
+        verify(mockGraphics).fill(isA(Rectangle2D.Double.class));
+        verify(mockGraphics).draw(isA(Rectangle2D.Double.class));
+        verify(mockGraphics).setStroke(isA(BasicStroke.class));
+        verify(mockGraphics).setColor(Color.black);
     }
-    */
+    
 }

@@ -1,62 +1,69 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.File;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Rectangle2D;
+
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import fr.JDrawingFrame;
+
 import fr.shapes.Triangle;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.ArgumentMatchers.isA;
+
 class TestTriangle {
+
+    @Mock
+    private Graphics2D mockGraphics;
+
+    private Triangle triangle;
+    private int x, y;
 
     @Test
     void testTriangleCreation() {
         int expectedX = 100;
         int expectedY = 100;
 
-        Triangle triangle = new Triangle(expectedX, expectedY);
+        triangle = new Triangle(expectedX, expectedY);
 
-        // Vérifie si le triangle est correctement positionné
+        // Vérifie si le carré est correctement positionné
+        assertNotNull(triangle);
         assertEquals(expectedX-25, triangle.getX());
         assertEquals(expectedY-25, triangle.getY());
     }
 
-    /*
-    @Test
-    void testTriangleExportToJson() {
-        JDrawingFrame drawingFrame = new JDrawingFrame("Test");
-
-        // Ajoute un triangle à la scène
-        Triangle triangle = new Triangle(100, 100);
-        drawingFrame.addShape(triangle);
-
-        // Exporte la scène au format JSON
-        File file = drawingFrame.exportShapes(true);
-
-        // Vérifie si le JSON exporté contient les informations du triangle
-        String jsonRepresentation = drawingFrame.readFileContent(file);
-        assertTrue(jsonRepresentation.contains("\"type\": \"triangle\""));
-        assertTrue(jsonRepresentation.contains("\"x\": 75"));
-        assertTrue(jsonRepresentation.contains("\"y\": 75"));
+    @BeforeEach
+    void setUp(){
+        triangle = new Triangle(x, y);
+        MockitoAnnotations.openMocks(this);
     }
 
+    @Test 
+    void drawTriangleTest(){
+  
+        Graphics2D mockGraphics = mock(Graphics2D.class);
 
-    @Test
-    void testTriangleExportToXml() {
-        JDrawingFrame drawingFrame = new JDrawingFrame("Test");
+        triangle = new Triangle(0, 0);
 
-        // Ajoute un triangle
-        Triangle triangle = new Triangle(100, 100);
-        drawingFrame.addShape(triangle); 
+        triangle.draw(mockGraphics);
 
-        // Exporte la scène au format XML
-        File file = drawingFrame.exportShapes(false);
-
-        // Vérifie si le XML exporté contient les informations du triangle
-        String xmlRepresentation = drawingFrame.readFileContent(file);
-        assertTrue(xmlRepresentation.contains("<type>triangle</type>"));
-        assertTrue(xmlRepresentation.contains("<x>75</x>"));
-        assertTrue(xmlRepresentation.contains("<y>75</y>"));
+        verify(mockGraphics).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        verify(mockGraphics).setPaint(isA(GradientPaint.class));
+        verify(mockGraphics).fill(isA(Rectangle2D.Double.class));
+        verify(mockGraphics).draw(isA(Rectangle2D.Double.class));
+        verify(mockGraphics).setStroke(isA(BasicStroke.class));
+        verify(mockGraphics).setColor(Color.black);
     }
-    */
 }

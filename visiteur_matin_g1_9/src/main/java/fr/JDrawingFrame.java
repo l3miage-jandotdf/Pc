@@ -92,6 +92,8 @@ public class JDrawingFrame extends JFrame
 
     private transient ShapesList shapeList = new ShapesList();
 
+    private JButton createGroupButton;
+
     /**
      * Tracks buttons to manage the background.
      */
@@ -131,20 +133,12 @@ public class JDrawingFrame extends JFrame
         setPreferredSize(new Dimension(500, 500));
 
         JButton selectButton = new JButton("Select");
-        JButton createGroupButton = new JButton("Create a group");
         JButton exportButtonXML = new JButton("XML");
         JButton exportButtonJSON = new JButton("JSON");
+        createGroupButton = new JButton("Create a group");
 
         selectButton.addActionListener(e -> selected = null);
-        createGroupButton.addActionListener(e -> {
-            createGroupMode = !createGroupMode;
-            selected = null;
-            if (createGroupMode) {
-                createGroupButton.setBorderPainted(true);
-            } else {
-                createGroupButton.setBorderPainted(false);
-            }
-        });
+        createGroupButton.addActionListener(e -> toggleCreateGroupMode());
         exportButtonXML.addActionListener(e -> exportShapes(false));
         exportButtonJSON.addActionListener(e -> exportShapes(true));
 
@@ -153,6 +147,26 @@ public class JDrawingFrame extends JFrame
         toolbar.add(createGroupButton);
         toolbar.add(exportButtonXML);
         toolbar.add(exportButtonJSON);
+    }
+
+
+    /**
+     * Bascule le mode de création de groupe.
+     * Si le mode de création de groupe est activé, le désactive, et vice versa.
+     * Réinitialise également la sélection à null.
+    */
+    private void toggleCreateGroupMode() {
+        createGroupMode = !createGroupMode;
+        selected = null;
+        updateCreateGroupButtonBorder();
+    }
+
+    /**
+     * Met à jour l'apparence visuelle du bouton de création de groupe en fonction du mode actuel.
+     * Si le mode de création de groupe est activé, la bordure du bouton est peinte, sinon non.
+    */
+    private void updateCreateGroupButtonBorder() {
+        createGroupButton.setBorderPainted(createGroupMode);
     }
 
 
