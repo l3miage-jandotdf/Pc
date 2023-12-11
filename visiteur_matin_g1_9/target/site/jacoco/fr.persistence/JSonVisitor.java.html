@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSonVisitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">visiteur_matin_g1_9</a> &gt; <a href="index.source.html" class="el_package">fr.persistence</a> &gt; <span class="el_source">JSonVisitor.java</span></div><h1>JSonVisitor.java</h1><pre class="source lang-java linenums">package fr.persistence;
 
 import fr.shapes.Circle;
+import fr.shapes.ShapeGroup;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
 /**
  * @author &lt;a href=&quot;mailto:christophe.saint-marcel@univ-grenoble-alpes.fr&quot;&gt;Christophe&lt;/a&gt;
  */
-<span class="nc" id="L10">public class JSonVisitor implements Visitor {</span>
+<span class="fc" id="L11">public class JSonVisitor implements Visitor {</span>
 
-<span class="nc" id="L12">    private String representation = null;</span>
+<span class="fc" id="L13">    private String representation = null;</span>
     public static final String JSON_X = &quot;\&quot;x\&quot;: &quot;; // crÃ©Ã© car Sonar rÃ¢lait, je trouve Ã§a un peu illisible...
     public static final String JSON_Y = &quot;\&quot;y\&quot;: &quot;;
 
@@ -22,15 +23,15 @@ import fr.shapes.Triangle;
     @Override
     public void visit(Circle circle) {
         // Json representation for circle
-<span class="nc" id="L25">        StringBuilder jsonBuilder = new StringBuilder();</span>
-<span class="nc" id="L26">        jsonBuilder.append(&quot;{&quot;);</span>
-<span class="nc" id="L27">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;circle\&quot;,&quot;);</span>
-<span class="nc" id="L28">        jsonBuilder.append(JSON_X).append(circle.getX()).append(&quot;,&quot;);</span>
-<span class="nc" id="L29">        jsonBuilder.append(JSON_Y).append(circle.getY()).append(&quot;,&quot;);</span>
-<span class="nc" id="L30">        jsonBuilder.append(&quot;}&quot;);</span>
+<span class="fc" id="L26">        StringBuilder jsonBuilder = new StringBuilder();</span>
+<span class="fc" id="L27">        jsonBuilder.append(&quot;{&quot;);</span>
+<span class="fc" id="L28">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;circle\&quot;,&quot;);</span>
+<span class="fc" id="L29">        jsonBuilder.append(JSON_X).append(circle.getX()).append(&quot;,&quot;);</span>
+<span class="fc" id="L30">        jsonBuilder.append(JSON_Y).append(circle.getY()).append(&quot;,&quot;);</span>
+<span class="fc" id="L31">        jsonBuilder.append(&quot;}&quot;);</span>
         
-<span class="nc" id="L32">        representation = jsonBuilder.toString();</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L33">        representation = jsonBuilder.toString();</span>
+<span class="fc" id="L34">    }</span>
 
     /**
      * Visite un objet de type Square et gÃ©nÃ¨re une reprÃ©sentation JSON.
@@ -40,15 +41,15 @@ import fr.shapes.Triangle;
     @Override
     public void visit(Square square) {
         // Json representation for square
-<span class="nc" id="L43">        StringBuilder jsonBuilder = new StringBuilder();</span>
-<span class="nc" id="L44">        jsonBuilder.append(&quot;{&quot;);</span>
-<span class="nc" id="L45">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;square\&quot;,&quot;);</span>
-<span class="nc" id="L46">        jsonBuilder.append(JSON_X).append(square.getX()).append(&quot;,&quot;);</span>
-<span class="nc" id="L47">        jsonBuilder.append(JSON_Y).append(square.getY()).append(&quot;,&quot;);</span>
-<span class="nc" id="L48">        jsonBuilder.append(&quot;}&quot;);</span>
+<span class="fc" id="L44">        StringBuilder jsonBuilder = new StringBuilder();</span>
+<span class="fc" id="L45">        jsonBuilder.append(&quot;{&quot;);</span>
+<span class="fc" id="L46">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;square\&quot;,&quot;);</span>
+<span class="fc" id="L47">        jsonBuilder.append(JSON_X).append(square.getX()).append(&quot;,&quot;);</span>
+<span class="fc" id="L48">        jsonBuilder.append(JSON_Y).append(square.getY()).append(&quot;,&quot;);</span>
+<span class="fc" id="L49">        jsonBuilder.append(&quot;}&quot;);</span>
 
-<span class="nc" id="L50">        representation = jsonBuilder.toString();</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L51">        representation = jsonBuilder.toString();</span>
+<span class="fc" id="L52">    }</span>
 
      /**
      * Visite un objet de type Triangle et gÃ©nÃ¨re une reprÃ©sentation JSON.
@@ -58,15 +59,31 @@ import fr.shapes.Triangle;
     @Override
     public void visit(Triangle triangle) {
         // Json representation for triangle
-<span class="nc" id="L61">        StringBuilder jsonBuilder = new StringBuilder();</span>
-<span class="nc" id="L62">        jsonBuilder.append(&quot;{&quot;);</span>
-<span class="nc" id="L63">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;triangle\&quot;,&quot;);</span>
-<span class="nc" id="L64">        jsonBuilder.append(JSON_X).append(triangle.getX()).append(&quot;,&quot;);</span>
-<span class="nc" id="L65">        jsonBuilder.append(JSON_Y).append(triangle.getY()).append(&quot;,&quot;);</span>
-<span class="nc" id="L66">        jsonBuilder.append(&quot;}&quot;);</span>
+<span class="fc" id="L62">        StringBuilder jsonBuilder = new StringBuilder();</span>
+<span class="fc" id="L63">        jsonBuilder.append(&quot;{&quot;);</span>
+<span class="fc" id="L64">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;triangle\&quot;,&quot;);</span>
+<span class="fc" id="L65">        jsonBuilder.append(JSON_X).append(triangle.getX()).append(&quot;,&quot;);</span>
+<span class="fc" id="L66">        jsonBuilder.append(JSON_Y).append(triangle.getY()).append(&quot;,&quot;);</span>
+<span class="fc" id="L67">        jsonBuilder.append(&quot;}&quot;);</span>
         
-<span class="nc" id="L68">        representation = jsonBuilder.toString();</span>
-<span class="nc" id="L69">    }</span>
+<span class="fc" id="L69">        representation = jsonBuilder.toString();</span>
+<span class="fc" id="L70">    }</span>
+
+    /**
+     * Visite un objet de type ShapeGroup et gÃ©nÃ¨re une reprÃ©sentation JSON.
+     *
+     * @param triangle L'objet ShapeGroup Ã  visiter.
+    */
+     @Override
+    public void visit(ShapeGroup shapeGroup) {
+        // Json representation for a group
+<span class="nc" id="L80">        StringBuilder jsonBuilder = new StringBuilder();</span>
+<span class="nc" id="L81">        jsonBuilder.append(&quot;{&quot;);</span>
+<span class="nc" id="L82">        jsonBuilder.append(&quot;\&quot;type\&quot;: \&quot;shapeGroup\&quot;,&quot;);</span>
+<span class="nc" id="L83">        jsonBuilder.append(&quot;}&quot;);</span>
+        
+<span class="nc" id="L85">        representation = jsonBuilder.toString();</span>
+<span class="nc" id="L86">    }</span>
 
     /**
      * @return the representation in JSon example for a Circle
@@ -84,7 +101,7 @@ import fr.shapes.Triangle;
      *         &lt;/pre&gt;
      */
     public String getRepresentation() {
-<span class="nc" id="L87">        return representation;</span>
+<span class="fc" id="L104">        return representation;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -46,15 +46,15 @@ public class Square extends AbstractShape {
      * @param g2 l'objet graphique utilisÃ© pour le dessin.
      */
     public void draw(Graphics2D g2) {
-<span class="nc" id="L49">        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);</span>
-<span class="nc" id="L50">        GradientPaint gradient = new GradientPaint(x, y, Color.BLUE, x + (float)50, y, Color.WHITE);</span>
-<span class="nc" id="L51">        g2.setPaint(gradient);</span>
-<span class="nc" id="L52">        g2.fill(new Rectangle2D.Double(x, y, 50, 50));</span>
-<span class="nc" id="L53">        BasicStroke wideStroke = new BasicStroke(2.0f);</span>
-<span class="nc" id="L54">        g2.setColor(Color.black);</span>
-<span class="nc" id="L55">        g2.setStroke(wideStroke);</span>
-<span class="nc" id="L56">        g2.draw(new Rectangle2D.Double(x, y, 50, 50));</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L49">        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);</span>
+<span class="fc" id="L50">        GradientPaint gradient = new GradientPaint(x, y, Color.BLUE, x + (float)50, y, Color.WHITE);</span>
+<span class="fc" id="L51">        g2.setPaint(gradient);</span>
+<span class="fc" id="L52">        g2.fill(new Rectangle2D.Double(x, y, 50, 50));</span>
+<span class="fc" id="L53">        BasicStroke wideStroke = new BasicStroke(2.0f);</span>
+<span class="fc" id="L54">        g2.setColor(Color.black);</span>
+<span class="fc" id="L55">        g2.setStroke(wideStroke);</span>
+<span class="fc" id="L56">        g2.draw(new Rectangle2D.Double(x, y, 50, 50));</span>
+<span class="fc" id="L57">    }</span>
 
 
    /**

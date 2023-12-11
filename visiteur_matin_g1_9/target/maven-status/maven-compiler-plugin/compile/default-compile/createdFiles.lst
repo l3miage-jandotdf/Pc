@@ -3,6 +3,7 @@ fr\shapes\AbstractShape.class
 fr\persistence\Visitor.class
 fr\JDrawingFrame$1.class
 fr\persistence\JSonVisitor.class
+fr\shapes\ShapeGroup.class
 fr\GUIHelper.class
 fr\JDrawingFrame$ShapeActionListener.class
 fr\JDrawingFrame.class

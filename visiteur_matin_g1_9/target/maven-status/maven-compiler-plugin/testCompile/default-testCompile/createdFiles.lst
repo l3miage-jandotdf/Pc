@@ -1,6 +1,7 @@
-TestExportJson.class
 TestExportXml.class
+AddShapeTest.class
 TestSquare.class
 TestCircle.class
+TestExportJson.class
 TestRetourArriere.class
 TestTriangle.class
