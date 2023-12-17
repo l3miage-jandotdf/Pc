@@ -139,7 +139,6 @@ public class JDrawingFrame extends JFrame
         JButton selectButton = new JButton("Import");
         JButton exportButtonXML = new JButton("XML");
         JButton exportButtonJSON = new JButton("JSON");
-        createGroupButton = new JButton("Create a group");
 
         selectButton.addActionListener(e -> {
             try {
@@ -148,13 +147,11 @@ public class JDrawingFrame extends JFrame
                 e1.printStackTrace();
             }
         });
-        createGroupButton.addActionListener(e -> toggleCreateGroupMode());
         exportButtonXML.addActionListener(e -> exportShapes(false));
         exportButtonJSON.addActionListener(e -> exportShapes(true));
 
 
         toolbar.add(selectButton);
-        toolbar.add(createGroupButton);
         toolbar.add(exportButtonXML);
         toolbar.add(exportButtonJSON);
     }
@@ -171,7 +168,7 @@ public class JDrawingFrame extends JFrame
      * Si le mode de création de groupe est activé, le désactive, et vice versa.
      * Réinitialise également la sélection à null.
     */
-    private void toggleCreateGroupMode() {
+    /*private void toggleCreateGroupMode() {
         createGroupMode = !createGroupMode;
         selected = null;
         updateCreateGroupButtonBorder();
@@ -181,7 +178,7 @@ public class JDrawingFrame extends JFrame
      * Met à jour l'apparence visuelle du bouton de création de groupe en fonction du mode actuel.
      * Si le mode de création de groupe est activé, la bordure du bouton est peinte, sinon non.
     */
-    private void updateCreateGroupButtonBorder() {
+    /*private void updateCreateGroupButtonBorder() {
         createGroupButton.setBorderPainted(createGroupMode);
     }
 
@@ -214,7 +211,7 @@ public class JDrawingFrame extends JFrame
      * @param name The name of the injected <tt>SimpleShape</tt>.
      * @param icon The icon associated with the injected <tt>SimpleShape</tt>.
     **/    
-    private SimpleShape getSelectedShape(int mouseX, int mouseY) {
+    public SimpleShape getSelectedShape(int mouseX, int mouseY) {
         for (SimpleShape shape : shapeList.getAllShapes()) {
             if (isMouseInsideShape(shape, mouseX, mouseY)) {
                 return shape; 
@@ -229,7 +226,7 @@ public class JDrawingFrame extends JFrame
      * @param mouseX position x de la souris
      * @param mouseY position y de la souris
     **/  
-    private boolean isMouseInsideShape(SimpleShape shape, int mouseX, int mouseY) {
+    public boolean isMouseInsideShape(SimpleShape shape, int mouseX, int mouseY) {
         int x = shape.getX(); 
         int y = shape.getY();
         int width = 50;
@@ -274,7 +271,7 @@ public class JDrawingFrame extends JFrame
                 }
             }
 
-            if (createGroupMode) {
+            /*if (createGroupMode) {
                 // Créez un groupe s'il n'y en a pas déjà un en cours
                 if (currentGroup == null) {
                     currentGroup = new ShapeGroup();
@@ -285,7 +282,7 @@ public class JDrawingFrame extends JFrame
                     currentGroup.addShape(shape);
                 }
 
-            }
+            }*/
         }
         this.requestFocusInWindow(); //reprend le focus sur le clavier
 
@@ -380,7 +377,7 @@ public class JDrawingFrame extends JFrame
     }
 
 
-    private SimpleShape createShape(Shapes shapeType, int x, int y) {
+    /*private SimpleShape createShape(Shapes shapeType, int x, int y) {
         switch (shapeType) {
             case CIRCLE:
                 return new Circle(x, y);
@@ -391,7 +388,7 @@ public class JDrawingFrame extends JFrame
             default:
                 return null;
         }
-    }
+    }*/
     
 
     /**

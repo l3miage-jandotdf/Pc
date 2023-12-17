@@ -135,16 +135,27 @@ public class JDrawingFrame extends JFrame
 <span class="nc" id="L135">        JButton selectButton = new JButton(&quot;Select&quot;);</span>
 <span class="nc" id="L136">        JButton exportButtonXML = new JButton(&quot;XML&quot;);</span>
 <span class="nc" id="L137">        JButton exportButtonJSON = new JButton(&quot;JSON&quot;);</span>
+<<<<<<< HEAD
 <span class="nc" id="L138">        createGroupButton = new JButton(&quot;Create a group&quot;);</span>
 
 <span class="nc" id="L140">        selectButton.addActionListener(e -&gt; selected = null);</span>
 <span class="nc" id="L141">        createGroupButton.addActionListener(e -&gt; toggleCreateGroupMode());</span>
+=======
+        //createGroupButton = new JButton(&quot;Create a group&quot;);
+
+<span class="nc" id="L140">        selectButton.addActionListener(e -&gt; selected = null);</span>
+        //createGroupButton.addActionListener(e -&gt; toggleCreateGroupMode());
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 <span class="nc" id="L142">        exportButtonXML.addActionListener(e -&gt; exportShapes(false));</span>
 <span class="nc" id="L143">        exportButtonJSON.addActionListener(e -&gt; exportShapes(true));</span>
 
 
 <span class="nc" id="L146">        toolbar.add(selectButton);</span>
+<<<<<<< HEAD
 <span class="nc" id="L147">        toolbar.add(createGroupButton);</span>
+=======
+        //toolbar.add(createGroupButton);
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 <span class="nc" id="L148">        toolbar.add(exportButtonXML);</span>
 <span class="nc" id="L149">        toolbar.add(exportButtonJSON);</span>
 <span class="nc" id="L150">    }</span>
@@ -155,19 +166,33 @@ public class JDrawingFrame extends JFrame
      * Si le mode de crÃ©ation de groupe est activÃ©, le dÃ©sactive, et vice versa.
      * RÃ©initialise Ã©galement la sÃ©lection Ã  null.
     */
+<<<<<<< HEAD
     private void toggleCreateGroupMode() {
 <span class="nc bnc" id="L159" title="All 2 branches missed.">        createGroupMode = !createGroupMode;</span>
 <span class="nc" id="L160">        selected = null;</span>
 <span class="nc" id="L161">        updateCreateGroupButtonBorder();</span>
 <span class="nc" id="L162">    }</span>
+=======
+    /*private void toggleCreateGroupMode() {
+        createGroupMode = !createGroupMode;
+        selected = null;
+        updateCreateGroupButtonBorder();
+    }
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 
     /**
      * Met Ã  jour l'apparence visuelle du bouton de crÃ©ation de groupe en fonction du mode actuel.
      * Si le mode de crÃ©ation de groupe est activÃ©, la bordure du bouton est peinte, sinon non.
     */
+<<<<<<< HEAD
     private void updateCreateGroupButtonBorder() {
 <span class="nc" id="L169">        createGroupButton.setBorderPainted(createGroupMode);</span>
 <span class="nc" id="L170">    }</span>
+=======
+    /*private void updateCreateGroupButtonBorder() {
+        createGroupButton.setBorderPainted(createGroupMode);
+    }
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 
 
 	/**
@@ -198,7 +223,11 @@ public class JDrawingFrame extends JFrame
      * @param name The name of the injected &lt;tt&gt;SimpleShape&lt;/tt&gt;.
      * @param icon The icon associated with the injected &lt;tt&gt;SimpleShape&lt;/tt&gt;.
     **/    
+<<<<<<< HEAD
     private SimpleShape getSelectedShape(int mouseX, int mouseY) {
+=======
+    public SimpleShape getSelectedShape(int mouseX, int mouseY) {
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 <span class="nc bnc" id="L202" title="All 2 branches missed.">        for (SimpleShape shape : shapeList.getAllShapes()) {</span>
 <span class="nc bnc" id="L203" title="All 2 branches missed.">            if (isMouseInsideShape(shape, mouseX, mouseY)) {</span>
 <span class="nc" id="L204">                return shape; </span>
@@ -213,7 +242,11 @@ public class JDrawingFrame extends JFrame
      * @param mouseX position x de la souris
      * @param mouseY position y de la souris
     **/  
+<<<<<<< HEAD
     private boolean isMouseInsideShape(SimpleShape shape, int mouseX, int mouseY) {
+=======
+    public boolean isMouseInsideShape(SimpleShape shape, int mouseX, int mouseY) {
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 <span class="nc" id="L217">        int x = shape.getX(); </span>
 <span class="nc" id="L218">        int y = shape.getY();</span>
 <span class="nc" id="L219">        int width = 50;</span>
@@ -258,6 +291,7 @@ public class JDrawingFrame extends JFrame
                 }
             }
 
+<<<<<<< HEAD
 <span class="nc bnc" id="L261" title="All 2 branches missed.">            if (createGroupMode) {</span>
                 // CrÃ©ez un groupe s'il n'y en a pas dÃ©jÃ  un en cours
 <span class="nc bnc" id="L263" title="All 2 branches missed.">                if (currentGroup == null) {</span>
@@ -270,6 +304,20 @@ public class JDrawingFrame extends JFrame
                 }
 
             }
+=======
+            /*if (createGroupMode) {
+                // CrÃ©ez un groupe s'il n'y en a pas dÃ©jÃ  un en cours
+                if (currentGroup == null) {
+                    currentGroup = new ShapeGroup();
+                    elements.add(currentGroup);
+                }
+                if (selected == Shapes.CIRCLE || selected == Shapes.TRIANGLE || selected == Shapes.SQUARE) {
+                    SimpleShape shape = createShape(selected, evt.getX(), evt.getY());
+                    currentGroup.addShape(shape);
+                }
+
+            }*/
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
         }
 <span class="nc" id="L274">        this.requestFocusInWindow(); //reprend le focus sur le clavier</span>
 
@@ -364,6 +412,7 @@ public class JDrawingFrame extends JFrame
 <span class="nc" id="L364">    }</span>
 
 
+<<<<<<< HEAD
     private SimpleShape createShape(Shapes shapeType, int x, int y) {
 <span class="nc bnc" id="L368" title="All 4 branches missed.">        switch (shapeType) {</span>
             case CIRCLE:
@@ -376,6 +425,20 @@ public class JDrawingFrame extends JFrame
 <span class="nc" id="L376">                return null;</span>
         }
     }
+=======
+    /*private SimpleShape createShape(Shapes shapeType, int x, int y) {
+        switch (shapeType) {
+            case CIRCLE:
+                return new Circle(x, y);
+            case TRIANGLE:
+                return new Triangle(x, y);
+            case SQUARE:
+                return new Square(x, y);
+            default:
+                return null;
+        }
+    }*/
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
     
 
     /**

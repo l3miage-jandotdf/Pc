@@ -6,14 +6,14 @@ import java.util.List;
 public class ShapesList {
 
     private List<SimpleShape> shapes;
-    private List<List<SimpleShape>> groupOfShapes;  //La liste des formes d'un groupe
-    private boolean groupMode = false;              // Permet de savoir si création de groupe en cours
-    private ShapeGroup currentGroup;                //Le groupe de formes en cours de création
+    //private List<List<SimpleShape>> groupOfShapes;  //La liste des formes d'un groupe
+    //private boolean groupMode = false;              // Permet de savoir si création de groupe en cours
+    //private ShapeGroup currentGroup;                //Le groupe de formes en cours de création
 
 
     public ShapesList() {
         shapes = new ArrayList<>();
-        groupOfShapes = new ArrayList<>();
+        //groupOfShapes = new ArrayList<>();
     }
 
     /**
@@ -52,14 +52,14 @@ public class ShapesList {
         }
     }
 
-
+    
     /**
      * Vérifie si une forme est déjà dans un groupe de formes.
      *
      * @param shape La forme à vérifer .
      * @return vrai si la forme est dans un autre, faux sinon.
      */
-    public boolean isShapeInGroup(SimpleShape shape) {
+    /*public boolean isShapeInGroup(SimpleShape shape) {
         for (List<SimpleShape> group : groupOfShapes) {
             if (group.contains(shape)) {
                 return true;
@@ -73,7 +73,7 @@ public class ShapesList {
      *
      * @param shapes les formes à ajouter au groupe de formes.
      */
-    public void createGroup(List<SimpleShape> shapes) {
+    /*public void createGroup(List<SimpleShape> shapes) {
         groupOfShapes.add(shapes);
     }
 
@@ -83,7 +83,7 @@ public class ShapesList {
      * @param shape la forme contenu dans le groupe
      * @return
      */
-    public List<SimpleShape> getGroup(SimpleShape shape) {
+    /*public List<SimpleShape> getGroup(SimpleShape shape) {
         List<SimpleShape> result = null;
         for (List<SimpleShape> group : groupOfShapes) {
             if (group.contains(shape)) {
@@ -99,7 +99,7 @@ public class ShapesList {
      *
      * @return The list of groups.
      */
-    public List<List<SimpleShape>> getGroups() {
+    /*public List<List<SimpleShape>> getGroups() {
         return this.groupOfShapes;
     }
 
@@ -109,7 +109,7 @@ public class ShapesList {
      *
      * @return true si groupe en cours de création, sinon false.
      */
-    public boolean isGroupMode() {
+    /*public boolean isGroupMode() {
         return groupMode;
     }
 
@@ -118,7 +118,7 @@ public class ShapesList {
      *
      * @param groupMode true pour activer le mode 'Création de groupe', false pour le désactiver.
      */
-    public void setGroupMode(boolean groupMode) {
+    /*public void setGroupMode(boolean groupMode) {
         this.groupMode = groupMode;
     }
 
@@ -127,7 +127,7 @@ public class ShapesList {
      *
      * @return Le groupe actuel.
      */
-    public ShapeGroup getCurrentGroup() {
+    /*public ShapeGroup getCurrentGroup() {
         return currentGroup;
     }
 
@@ -136,7 +136,7 @@ public class ShapesList {
      *
      * @param currentGroup Le groupe à définir comme groupe actuel.
      */
-    public void setCurrentGroup(ShapeGroup currentGroup) {
+    /*public void setCurrentGroup(ShapeGroup currentGroup) {
         this.currentGroup = currentGroup;
-    }
+    } */
 }

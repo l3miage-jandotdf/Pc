@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: TestRetourArriere
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s - in TestRetourArriere
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in TestRetourArriere
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df

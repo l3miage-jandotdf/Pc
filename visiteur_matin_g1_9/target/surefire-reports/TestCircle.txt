@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: TestCircle
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.127 s - in TestCircle
+=======
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.11 s - in TestCircle
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df

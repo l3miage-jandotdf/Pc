@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: AddShapeTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.776 s - in AddShapeTest
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.861 s - in AddShapeTest
+>>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
