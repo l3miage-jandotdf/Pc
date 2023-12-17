@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
-import fr.JDrawingFrame;
 import fr.persistence.JSonVisitor;
 import fr.persistence.Visitor;
 import fr.persistence.XMLVisitor;
@@ -18,8 +17,8 @@ import fr.shapes.Element;
 
 public class Export extends JFrame {
 
-    List<Element> elements;
-    private static final Logger log = Logger.getLogger(JDrawingFrame.class.getName());
+    private transient List<Element> elements;
+    private static final Logger log = Logger.getLogger(Export.class.getName());
 
     public Export(List<Element> elements) {
         this.elements = elements;

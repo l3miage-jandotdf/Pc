@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -50,17 +49,16 @@ import fr.commands.AddShape;
 import fr.commands.RemoveShape;
 import fr.shapes.Circle;
 import fr.shapes.Element;
-import fr.shapes.ShapeGroup;
 import fr.shapes.ShapesList;
 import fr.shapes.SimpleShape;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
+import fr.uga.miage.m1.Export;
+import fr.uga.miage.m1.ImportXML;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import fr.commands.ImportXML;
-import fr.commands.Export;
 
 /**
  * This class represents the main application class, which is a JFrame subclass
@@ -82,7 +80,6 @@ public class JDrawingFrame extends JFrame
     private transient List<Element> elements = new ArrayList<>();
     private boolean isDragging = false;
     private transient SimpleShape selectedShape;
-
     private transient ShapesList shapeList = new ShapesList();
 
 
@@ -124,20 +121,18 @@ public class JDrawingFrame extends JFrame
 
         setPreferredSize(new Dimension(500, 500));
 
-        JButton selectButton = new JButton("Import");
-        JButton exportButtonXML = new JButton("XML");
-        JButton exportButtonJSON = new JButton("JSON");
+        JButton selectButton = new JButton("Import XML");
+        JButton exportButtonXML = new JButton("Export XML");
+        JButton exportButtonJSON = new JButton("Export JSON");
 
         selectButton.addActionListener(e -> {
             try {
                 importXML();
             } catch (IOException e1) {
-                e1.printStackTrace();
             }
         });
         exportButtonXML.addActionListener(e -> exportShapes(false));
         exportButtonJSON.addActionListener(e -> exportShapes(true));
-
 
         toolbar.add(selectButton);
         toolbar.add(exportButtonXML);
@@ -148,26 +143,7 @@ public class JDrawingFrame extends JFrame
      * Appelle la méthode statique importXMLFile qui gère l'import XML
     */
     public void importXML() throws IOException {
-        ImportXML.importXMLFile(panel, elements, shapeList);
-    }
-
-    /**
-     * Bascule le mode de création de groupe.
-     * Si le mode de création de groupe est activé, le désactive, et vice versa.
-     * Réinitialise également la sélection à null.
-    */
-    /*private void toggleCreateGroupMode() {
-        createGroupMode = !createGroupMode;
-        selected = null;
-        updateCreateGroupButtonBorder();
-    }
-
-    /**
-     * Met à jour l'apparence visuelle du bouton de création de groupe en fonction du mode actuel.
-     * Si le mode de création de groupe est activé, la bordure du bouton est peinte, sinon non.
-    */
-    /*private void updateCreateGroupButtonBorder() {
-        createGroupButton.setBorderPainted(createGroupMode);
+        ImportXML.importXMLFile(panel, elements, shapeList); //utilisation de la fonction du .jar
     }
 
 
@@ -258,19 +234,6 @@ public class JDrawingFrame extends JFrame
 
                 }
             }
-
-            /*if (createGroupMode) {
-                // Créez un groupe s'il n'y en a pas déjà un en cours
-                if (currentGroup == null) {
-                    currentGroup = new ShapeGroup();
-                    elements.add(currentGroup);
-                }
-                if (selected == Shapes.CIRCLE || selected == Shapes.TRIANGLE || selected == Shapes.SQUARE) {
-                    SimpleShape shape = createShape(selected, evt.getX(), evt.getY());
-                    currentGroup.addShape(shape);
-                }
-
-            }*/
         }
         this.requestFocusInWindow(); //reprend le focus sur le clavier
 
@@ -364,21 +327,6 @@ public class JDrawingFrame extends JFrame
         isDragging = true;
     }
 
-
-    /*private SimpleShape createShape(Shapes shapeType, int x, int y) {
-        switch (shapeType) {
-            case CIRCLE:
-                return new Circle(x, y);
-            case TRIANGLE:
-                return new Triangle(x, y);
-            case SQUARE:
-                return new Square(x, y);
-            default:
-                return null;
-        }
-    }*/
-    
-
     /**
      * Implements an empty method for the <tt>MouseMotionListener</tt>
      * interface.
@@ -423,8 +371,9 @@ public class JDrawingFrame extends JFrame
      * @param isJSON true si l'on veut un json, false pour un xml
      */
     public void exportShapes(boolean isJSON) {
-        Export exp = new Export(elements);
+        Export exp = new Export(elements); //Utilisation de la fonction du .jar
         exp.exportShapes(isJSON);
+
     }
     
 

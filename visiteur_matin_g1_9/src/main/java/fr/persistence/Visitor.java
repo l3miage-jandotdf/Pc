@@ -1,7 +1,6 @@
 package fr.persistence;
 
 import fr.shapes.Circle;
-import fr.shapes.ShapeGroup;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
@@ -17,10 +16,7 @@ public interface Visitor {
 
     public void visit(Circle circle);
 
-    public void visit(ShapeGroup shapeGroup);
-
     public String getRepresentation();
-
-    
+  
 
 }

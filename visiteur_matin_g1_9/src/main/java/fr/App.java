@@ -8,6 +8,6 @@ package fr;
 public class App {
 
     public static void main(String[] args) {
-        GUIHelper.showOnFrame("test");
+        GUIHelper.showOnFrame("Shapes Panel");
     }
 }
