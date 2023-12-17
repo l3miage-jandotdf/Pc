@@ -28,7 +28,7 @@ public class XMLVisitor implements Visitor {
         xmlBuilder.append("<type>circle</type>");
         xmlBuilder.append("<x>").append(circle.getX()).append("</x>");
         xmlBuilder.append("<y>").append(circle.getY()).append("</y>");
-        xmlBuilder.append(BEGINSHAPE);
+        xmlBuilder.append(ENDSHAPE);
         
         representation = xmlBuilder.toString();
     }

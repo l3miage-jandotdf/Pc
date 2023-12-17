@@ -21,6 +21,7 @@ package fr;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -64,6 +65,9 @@ import fr.shapes.Triangle;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import fr.commands.ImportXML;
+import fr.commands.Export;
 
 /**
  * This class represents the main application class, which is a JFrame subclass
@@ -132,12 +136,18 @@ public class JDrawingFrame extends JFrame
 
         setPreferredSize(new Dimension(500, 500));
 
-        JButton selectButton = new JButton("Select");
+        JButton selectButton = new JButton("Import");
         JButton exportButtonXML = new JButton("XML");
         JButton exportButtonJSON = new JButton("JSON");
         createGroupButton = new JButton("Create a group");
 
-        selectButton.addActionListener(e -> selected = null);
+        selectButton.addActionListener(e -> {
+            try {
+                importXML();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
         createGroupButton.addActionListener(e -> toggleCreateGroupMode());
         exportButtonXML.addActionListener(e -> exportShapes(false));
         exportButtonJSON.addActionListener(e -> exportShapes(true));
@@ -149,6 +159,12 @@ public class JDrawingFrame extends JFrame
         toolbar.add(exportButtonJSON);
     }
 
+    /**
+     * Appelle la méthode statique importXMLFile qui gère l'import XML
+    */
+    public void importXML() throws IOException {
+        ImportXML.importXMLFile(panel, elements, shapeList);
+    }
 
     /**
      * Bascule le mode de création de groupe.
@@ -420,77 +436,10 @@ public class JDrawingFrame extends JFrame
 
     /** Écrit le contenu du dessin dans un fichier (.json ou .xml)
      * @param isJSON true si l'on veut un json, false pour un xml
-     * @return selectedFile le fichier créé
      */
-    public File exportShapes(boolean isJSON) {
-        Visitor visitor = isJSON ? new JSonVisitor() : new XMLVisitor();
-        String extension = isJSON ? "json" : "xml";
-    
-        File selectedFile = getSelectedFileWithExtension(extension);
-        if (selectedFile == null) {
-            return null;
-        }
-    
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile))) {
-            writeShapesToFile(writer, isJSON, visitor);
-        } catch (IOException e) {
-            log.severe("Une erreur s'est produite lors de l'exportation des formes : " + e.getMessage());
-        }
-        return selectedFile;
-    }
-    
-    /**
-     * Récupère le fichier sélectionné avec l'extension spécifiée.
-     *
-     * @param extension L'extension de fichier à utiliser (json ou xml)
-     * @return le fichier sélectionné avec l'extension appropriée ou null si aucune sélection n'a été faite
-     */
-    private File getSelectedFileWithExtension(String extension) {
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(this);
-    
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            String filePath = selectedFile.getAbsolutePath();
-    
-            if (!filePath.endsWith("." + extension)) {
-                filePath += "." + extension;
-                selectedFile = new File(filePath);
-            }
-            return selectedFile;
-        }
-        return null;
-    }
-
-
-    /**
-     * Écrit les formes dans le fichier donné en utilisant le writer spécifié.
-     *
-     * @param writer   Le BufferedWriter pour écrire dans le fichier
-     * @param isJSON   true si le fichier doit être au format JSON, false pour le format XML
-     * @param visitor  Le visiteur utilisé pour obtenir la représentation des formes
-     * @throws IOException si une erreur survient lors de l'écriture dans le fichier
-     */
-    private void writeShapesToFile(BufferedWriter writer, boolean isJSON, Visitor visitor) throws IOException {
-        if (isJSON) {
-            writer.write("{\n  \"shapes\": [\n");
-        }
-    
-        boolean firstShape = true;
-        for (Element element : elements) {
-            element.accept(visitor);
-            String representation = visitor.getRepresentation();
-    
-            if (!firstShape) {
-                writer.write(isJSON ? ",\n" : "\n");
-            }
-            writer.write(representation);
-            firstShape = false;
-        }
-    
-        if (isJSON) {
-            writer.write("\n  ]\n}");
-        }
+    public void exportShapes(boolean isJSON) {
+        Export exp = new Export(elements);
+        exp.exportShapes(isJSON);
     }
     
 
