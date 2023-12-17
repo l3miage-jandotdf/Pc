@@ -25,4 +25,7 @@ public class GUIHelper {
         frame.pack();
         frame.setVisible(true);
     }
+
+    public interface OutputListener {
+    }
 }

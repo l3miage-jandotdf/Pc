@@ -1,7 +1,6 @@
 package fr.persistence;
 
 import fr.shapes.Circle;
-import fr.shapes.ShapeGroup;
 import fr.shapes.Square;
 import fr.shapes.Triangle;
 
@@ -71,22 +70,6 @@ public class XMLVisitor implements Visitor {
         representation = xmlBuilder.toString();
     }
 
-
-    /**
-     * Visite un objet de type ShapeGroup et génère une représentation XML 
-     * 
-     * @param triangle l'objet ShapeGroup à visiter
-    */
-     @Override
-    public void visit(ShapeGroup shapeGroup) {
-        // XML representation for a group
-        StringBuilder xmlBuilder = new StringBuilder();
-        xmlBuilder.append(BEGINSHAPE);
-        xmlBuilder.append("<type>shapeGroup</type>");
-        xmlBuilder.append(ENDSHAPE);
-        
-        representation = xmlBuilder.toString();
-    }
 
     /**
      * @return the representation in XML example for a Triangle:

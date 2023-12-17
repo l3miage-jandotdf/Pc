@@ -21,7 +21,6 @@ package fr;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -30,20 +29,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -52,12 +47,8 @@ import javax.swing.SwingConstants;
 
 import fr.commands.AddShape;
 import fr.commands.RemoveShape;
-import fr.persistence.JSonVisitor;
-import fr.persistence.Visitor;
-import fr.persistence.XMLVisitor;
 import fr.shapes.Circle;
 import fr.shapes.Element;
-import fr.shapes.ShapeGroup;
 import fr.shapes.ShapesList;
 import fr.shapes.SimpleShape;
 import fr.shapes.Square;
@@ -83,20 +74,14 @@ public class JDrawingFrame extends JFrame
     private static final long serialVersionUID = 1L;
     private JToolBar toolbar;
     private Shapes selected;
-    private transient ShapeGroup currentGroup;
     private JPanel panel;
     private JLabel label;
     private transient ActionListener reusableActionListener = new ShapeActionListener();
     private transient List<Element> elements = new ArrayList<>();
     private boolean isDragging = false;
-    private boolean createGroupMode = false;
     private transient SimpleShape selectedShape;
-    private static final Logger log = Logger.getLogger(JDrawingFrame.class.getName());
-
-
     private transient ShapesList shapeList = new ShapesList();
 
-    private JButton createGroupButton;
 
     /**
      * Tracks buttons to manage the background.
@@ -136,20 +121,18 @@ public class JDrawingFrame extends JFrame
 
         setPreferredSize(new Dimension(500, 500));
 
-        JButton selectButton = new JButton("Import");
-        JButton exportButtonXML = new JButton("XML");
-        JButton exportButtonJSON = new JButton("JSON");
+        JButton selectButton = new JButton("Import XML");
+        JButton exportButtonXML = new JButton("Export XML");
+        JButton exportButtonJSON = new JButton("Export JSON");
 
         selectButton.addActionListener(e -> {
             try {
                 importXML();
             } catch (IOException e1) {
-                e1.printStackTrace();
             }
         });
         exportButtonXML.addActionListener(e -> exportShapes(false));
         exportButtonJSON.addActionListener(e -> exportShapes(true));
-
 
         toolbar.add(selectButton);
         toolbar.add(exportButtonXML);
@@ -161,25 +144,6 @@ public class JDrawingFrame extends JFrame
     */
     public void importXML() throws IOException {
         ImportXML.importXMLFile(panel, elements, shapeList);
-    }
-
-    /**
-     * Bascule le mode de création de groupe.
-     * Si le mode de création de groupe est activé, le désactive, et vice versa.
-     * Réinitialise également la sélection à null.
-    */
-    /*private void toggleCreateGroupMode() {
-        createGroupMode = !createGroupMode;
-        selected = null;
-        updateCreateGroupButtonBorder();
-    }
-
-    /**
-     * Met à jour l'apparence visuelle du bouton de création de groupe en fonction du mode actuel.
-     * Si le mode de création de groupe est activé, la bordure du bouton est peinte, sinon non.
-    */
-    /*private void updateCreateGroupButtonBorder() {
-        createGroupButton.setBorderPainted(createGroupMode);
     }
 
 
@@ -270,19 +234,6 @@ public class JDrawingFrame extends JFrame
 
                 }
             }
-
-            /*if (createGroupMode) {
-                // Créez un groupe s'il n'y en a pas déjà un en cours
-                if (currentGroup == null) {
-                    currentGroup = new ShapeGroup();
-                    elements.add(currentGroup);
-                }
-                if (selected == Shapes.CIRCLE || selected == Shapes.TRIANGLE || selected == Shapes.SQUARE) {
-                    SimpleShape shape = createShape(selected, evt.getX(), evt.getY());
-                    currentGroup.addShape(shape);
-                }
-
-            }*/
         }
         this.requestFocusInWindow(); //reprend le focus sur le clavier
 
@@ -375,21 +326,6 @@ public class JDrawingFrame extends JFrame
         }
         isDragging = true;
     }
-
-
-    /*private SimpleShape createShape(Shapes shapeType, int x, int y) {
-        switch (shapeType) {
-            case CIRCLE:
-                return new Circle(x, y);
-            case TRIANGLE:
-                return new Triangle(x, y);
-            case SQUARE:
-                return new Square(x, y);
-            default:
-                return null;
-        }
-    }*/
-    
 
     /**
      * Implements an empty method for the <tt>MouseMotionListener</tt>

@@ -22,6 +22,8 @@ import fr.shapes.Triangle;
 
 public class ImportXML {
 
+    private ImportXML(){}
+
     public static void importXMLFile(JPanel panel, List<Element> elements, ShapesList shapeList) throws IOException {
         Graphics2D g2 = (Graphics2D) panel.getGraphics();
         JFileChooser chooser = new JFileChooser();
@@ -35,6 +37,12 @@ public class ImportXML {
             try {
                 // Créer une instance de DocumentBuilderFactory
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+                // Désactiver l'accès aux entités externes
+                factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+                factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+                factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
                 DocumentBuilder builder = factory.newDocumentBuilder();
     
                 // Analyser le fichier XML pour créer un Document
@@ -80,7 +88,6 @@ public class ImportXML {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }
