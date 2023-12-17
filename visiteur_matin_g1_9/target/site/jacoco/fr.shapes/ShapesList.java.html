@@ -6,24 +6,14 @@ import java.util.List;
 public class ShapesList {
 
     private List&lt;SimpleShape&gt; shapes;
-<<<<<<< HEAD
-    private List&lt;List&lt;SimpleShape&gt;&gt; groupOfShapes;  //La liste des formes d'un groupe
-<span class="nc" id="L10">    private boolean groupMode = false;              // Permet de savoir si crÃ©ation de groupe en cours</span>
-    private ShapeGroup currentGroup;                //Le groupe de formes en cours de crÃ©ation
-=======
     //private List&lt;List&lt;SimpleShape&gt;&gt; groupOfShapes;  //La liste des formes d'un groupe
     //private boolean groupMode = false;              // Permet de savoir si crÃ©ation de groupe en cours
     //private ShapeGroup currentGroup;                //Le groupe de formes en cours de crÃ©ation
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 
 
 <span class="nc" id="L14">    public ShapesList() {</span>
 <span class="nc" id="L15">        shapes = new ArrayList&lt;&gt;();</span>
-<<<<<<< HEAD
-<span class="nc" id="L16">        groupOfShapes = new ArrayList&lt;&gt;();</span>
-=======
         //groupOfShapes = new ArrayList&lt;&gt;();
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 <span class="nc" id="L17">    }</span>
 
     /**
@@ -62,26 +52,13 @@ public class ShapesList {
         }
 <span class="nc" id="L53">    }</span>
 
-<<<<<<< HEAD
-
-=======
     
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
     /**
      * VÃ©rifie si une forme est dÃ©jÃ  dans un groupe de formes.
      *
      * @param shape La forme Ã  vÃ©rifer .
      * @return vrai si la forme est dans un autre, faux sinon.
      */
-<<<<<<< HEAD
-    public boolean isShapeInGroup(SimpleShape shape) {
-<span class="nc bnc" id="L63" title="All 2 branches missed.">        for (List&lt;SimpleShape&gt; group : groupOfShapes) {</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (group.contains(shape)) {</span>
-<span class="nc" id="L65">                return true;</span>
-            }
-<span class="nc" id="L67">        }</span>
-<span class="nc" id="L68">        return false;</span>
-=======
     /*public boolean isShapeInGroup(SimpleShape shape) {
         for (List&lt;SimpleShape&gt; group : groupOfShapes) {
             if (group.contains(shape)) {
@@ -89,7 +66,6 @@ public class ShapesList {
             }
         }
         return false;
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
     }
 
      /**
@@ -97,15 +73,9 @@ public class ShapesList {
      *
      * @param shapes les formes Ã  ajouter au groupe de formes.
      */
-<<<<<<< HEAD
-    public void createGroup(List&lt;SimpleShape&gt; shapes) {
-<span class="nc" id="L77">        groupOfShapes.add(shapes);</span>
-<span class="nc" id="L78">    }</span>
-=======
     /*public void createGroup(List&lt;SimpleShape&gt; shapes) {
         groupOfShapes.add(shapes);
     }
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 
 
     /**
@@ -113,16 +83,6 @@ public class ShapesList {
      * @param shape la forme contenu dans le groupe
      * @return
      */
-<<<<<<< HEAD
-    public List&lt;SimpleShape&gt; getGroup(SimpleShape shape) {
-<span class="nc" id="L87">        List&lt;SimpleShape&gt; result = null;</span>
-<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (List&lt;SimpleShape&gt; group : groupOfShapes) {</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (group.contains(shape)) {</span>
-<span class="nc" id="L90">                result = group;</span>
-            }
-<span class="nc" id="L92">        }</span>
-<span class="nc" id="L93">        return result;</span>
-=======
     /*public List&lt;SimpleShape&gt; getGroup(SimpleShape shape) {
         List&lt;SimpleShape&gt; result = null;
         for (List&lt;SimpleShape&gt; group : groupOfShapes) {
@@ -131,7 +91,6 @@ public class ShapesList {
             }
         }
         return result;
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
     }
 
 
@@ -140,13 +99,8 @@ public class ShapesList {
      *
      * @return The list of groups.
      */
-<<<<<<< HEAD
-    public List&lt;List&lt;SimpleShape&gt;&gt; getGroups() {
-<span class="nc" id="L103">        return this.groupOfShapes;</span>
-=======
     /*public List&lt;List&lt;SimpleShape&gt;&gt; getGroups() {
         return this.groupOfShapes;
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
     }
 
 
@@ -155,13 +109,8 @@ public class ShapesList {
      *
      * @return true si groupe en cours de crÃ©ation, sinon false.
      */
-<<<<<<< HEAD
-    public boolean isGroupMode() {
-<span class="nc" id="L113">        return groupMode;</span>
-=======
     /*public boolean isGroupMode() {
         return groupMode;
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
     }
 
     /**
@@ -169,28 +118,17 @@ public class ShapesList {
      *
      * @param groupMode true pour activer le mode 'CrÃ©ation de groupe', false pour le dÃ©sactiver.
      */
-<<<<<<< HEAD
-    public void setGroupMode(boolean groupMode) {
-<span class="nc" id="L122">        this.groupMode = groupMode;</span>
-<span class="nc" id="L123">    }</span>
-=======
     /*public void setGroupMode(boolean groupMode) {
         this.groupMode = groupMode;
     }
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 
     /**
      * Obtient le groupe en cours de crÃ©ation 
      *
      * @return Le groupe actuel.
      */
-<<<<<<< HEAD
-    public ShapeGroup getCurrentGroup() {
-<span class="nc" id="L131">        return currentGroup;</span>
-=======
     /*public ShapeGroup getCurrentGroup() {
         return currentGroup;
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
     }
 
     /**
@@ -198,14 +136,8 @@ public class ShapesList {
      *
      * @param currentGroup Le groupe Ã  dÃ©finir comme groupe actuel.
      */
-<<<<<<< HEAD
-    public void setCurrentGroup(ShapeGroup currentGroup) {
-<span class="nc" id="L140">        this.currentGroup = currentGroup;</span>
-<span class="nc" id="L141">    }</span>
-=======
     /*public void setCurrentGroup(ShapeGroup currentGroup) {
         this.currentGroup = currentGroup;
     } */
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

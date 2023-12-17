@@ -21,7 +21,6 @@ package fr;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -30,10 +29,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -43,7 +40,6 @@ import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -52,9 +48,6 @@ import javax.swing.SwingConstants;
 
 import fr.commands.AddShape;
 import fr.commands.RemoveShape;
-import fr.persistence.JSonVisitor;
-import fr.persistence.Visitor;
-import fr.persistence.XMLVisitor;
 import fr.shapes.Circle;
 import fr.shapes.Element;
 import fr.shapes.ShapeGroup;
@@ -83,20 +76,15 @@ public class JDrawingFrame extends JFrame
     private static final long serialVersionUID = 1L;
     private JToolBar toolbar;
     private Shapes selected;
-    private transient ShapeGroup currentGroup;
     private JPanel panel;
     private JLabel label;
     private transient ActionListener reusableActionListener = new ShapeActionListener();
     private transient List<Element> elements = new ArrayList<>();
     private boolean isDragging = false;
-    private boolean createGroupMode = false;
     private transient SimpleShape selectedShape;
-    private static final Logger log = Logger.getLogger(JDrawingFrame.class.getName());
-
 
     private transient ShapesList shapeList = new ShapesList();
 
-    private JButton createGroupButton;
 
     /**
      * Tracks buttons to manage the background.

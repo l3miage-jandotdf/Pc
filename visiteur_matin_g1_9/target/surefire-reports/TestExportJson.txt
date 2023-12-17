@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: TestExportJson
 -------------------------------------------------------------------------------
-<<<<<<< HEAD
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.301 s - in TestExportJson
-=======
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.264 s - in TestExportJson
->>>>>>> 9a763657b6a8442c1f148be3e1e721ec3a2324df
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.211 s - in TestExportJson

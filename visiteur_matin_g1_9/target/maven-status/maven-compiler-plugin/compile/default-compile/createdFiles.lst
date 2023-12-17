@@ -7,6 +7,7 @@ fr\shapes\ShapeGroup.class
 fr\GUIHelper.class
 fr\JDrawingFrame$ShapeActionListener.class
 fr\JDrawingFrame.class
+fr\commands\ImportXML.class
 fr\commands\AddShape.class
 fr\commands\Command.class
 fr\shapes\SimpleShape.class
@@ -15,6 +16,7 @@ fr\persistence\Visitable.class
 fr\commands\RemoveShape.class
 fr\shapes\Circle.class
 fr\shapes\Triangle.class
+fr\commands\Export.class
 fr\GUIHelper$1.class
 fr\shapes\ShapesList.class
 fr\shapes\Element.class

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Export.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">visiteur_matin_g1_9</a> &gt; <a href="index.source.html" class="el_package">fr.commands</a> &gt; <span class="el_source">Export.java</span></div><h1>Export.java</h1><pre class="source lang-java linenums">package fr.commands;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+
+import fr.JDrawingFrame;
+import fr.persistence.JSonVisitor;
+import fr.persistence.Visitor;
+import fr.persistence.XMLVisitor;
+import fr.shapes.Element;
+
+public class Export extends JFrame {
+
+    List&lt;Element&gt; elements;
+<span class="nc" id="L22">    private static final Logger log = Logger.getLogger(JDrawingFrame.class.getName());</span>
+
+<span class="nc" id="L24">    public Export(List&lt;Element&gt; elements) {</span>
+<span class="nc" id="L25">        this.elements = elements;</span>
+<span class="nc" id="L26">    }</span>
+
+    /** Ãcrit le contenu du dessin dans un fichier (.json ou .xml)
+     * @param isJSON true si l'on veut un json, false pour un xml
+     * @return selectedFile le fichier crÃ©Ã©
+     */
+    
+    public File exportShapes(boolean isJSON) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        Visitor visitor = isJSON ? new JSonVisitor() : new XMLVisitor();</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        String extension = isJSON ? &quot;json&quot; : &quot;xml&quot;;</span>
+    
+<span class="nc" id="L37">        File selectedFile = getSelectedFileWithExtension(extension);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (selectedFile == null) {</span>
+<span class="nc" id="L39">            return null;</span>
+        }
+    
+<span class="nc" id="L42">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile))) {</span>
+<span class="nc" id="L43">            writeShapesToFile(writer, isJSON, visitor);</span>
+<span class="nc" id="L44">        } catch (IOException e) {</span>
+<span class="nc" id="L45">            log.severe(&quot;Une erreur s'est produite lors de l'exportation des formes : &quot; + e.getMessage());</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">        return selectedFile;</span>
+    }
+    
+    /**
+     * RÃ©cupÃ¨re le fichier sÃ©lectionnÃ© avec l'extension spÃ©cifiÃ©e.
+     *
+     * @param extension L'extension de fichier Ã  utiliser (json ou xml)
+     * @return le fichier sÃ©lectionnÃ© avec l'extension appropriÃ©e ou null si aucune sÃ©lection n'a Ã©tÃ© faite
+     */
+    private File getSelectedFileWithExtension(String extension) {
+<span class="nc" id="L57">        JFileChooser fileChooser = new JFileChooser();</span>
+<span class="nc" id="L58">        int result = fileChooser.showSaveDialog(this);</span>
+    
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (result == JFileChooser.APPROVE_OPTION) {</span>
+<span class="nc" id="L61">            File selectedFile = fileChooser.getSelectedFile();</span>
+<span class="nc" id="L62">            String filePath = selectedFile.getAbsolutePath();</span>
+    
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (!filePath.endsWith(&quot;.&quot; + extension)) {</span>
+<span class="nc" id="L65">                filePath += &quot;.&quot; + extension;</span>
+<span class="nc" id="L66">                selectedFile = new File(filePath);</span>
+            }
+<span class="nc" id="L68">            return selectedFile;</span>
+        }
+<span class="nc" id="L70">        return null;</span>
+    }
+
+
+    /**
+     * Ãcrit les formes dans le fichier donnÃ© en utilisant le writer spÃ©cifiÃ©.
+     *
+     * @param writer   Le BufferedWriter pour Ã©crire dans le fichier
+     * @param isJSON   true si le fichier doit Ãªtre au format JSON, false pour le format XML
+     * @param visitor  Le visiteur utilisÃ© pour obtenir la reprÃ©sentation des formes
+     * @throws IOException si une erreur survient lors de l'Ã©criture dans le fichier
+     */
+    private void writeShapesToFile(BufferedWriter writer, boolean isJSON, Visitor visitor) throws IOException {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (isJSON) {</span>
+<span class="nc" id="L84">            writer.write(&quot;{\n  \&quot;shapes\&quot;: [\n&quot;);</span>
+        }
+        else{
+<span class="nc" id="L87">            writer.write(&quot;&lt;root&gt;&quot;);</span>
+<span class="nc" id="L88">            writer.write(&quot;&lt;shapes&gt;&quot;);</span>
+        }
+    
+<span class="nc" id="L91">        boolean firstShape = true;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (Element element : elements) {</span>
+<span class="nc" id="L93">            element.accept(visitor);</span>
+<span class="nc" id="L94">            String representation = visitor.getRepresentation();</span>
+    
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            if (!firstShape) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                writer.write(isJSON ? &quot;,\n&quot; : &quot;\n&quot;);</span>
+            }
+<span class="nc" id="L99">            writer.write(representation);</span>
+<span class="nc" id="L100">            firstShape = false;</span>
+<span class="nc" id="L101">        }</span>
+    
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (isJSON) {</span>
+<span class="nc" id="L104">            writer.write(&quot;\n  ]\n}&quot;);</span>
+        }
+        else{
+<span class="nc" id="L107">            writer.write(&quot;&lt;/shapes&gt;&quot;);</span>
+<span class="nc" id="L108">            writer.write(&quot;&lt;/root&gt;&quot;);</span>
+        }
+<span class="nc" id="L110">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
